@@ -1,0 +1,80 @@
+<extend name="common"/>
+<block name="title">用户中心-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li class="active">用户中心</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">网站公告</h3>
+			</div>
+			{:stripslashes(C('gonggao_user'))}
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 hidden-md hidden-lg">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-info">我的信息<a href="{:U('userinfo')}"><span class="glyphicon glyphicon-edit" aria-hidden="true" style="float:right;"></span></a></div>
+			<div class="list-group-item">
+				<span class="badge">UID:{$user.uid}</span>
+				<span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;{$user.user}</span>
+			</div>
+			<div class="list-group-item list-group-item-warning">
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;代理：<if condition="$user['daili']"><a href="{:U('daili/index')}">普通代理</a><else/>不是代理></if></span>
+			</div>
+			<div class="list-group-item">
+				<span class="badge">充值</span>
+				<span class="glyphicon glyphicon-yen" aria-hidden="true">&nbsp;<font color="red" size="3">{$user.rmb}</font>&nbsp;元</span>
+			</div>
+			<div class="list-group-item">
+				<a href="" class="badge">兑换</a>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;积分：<font color="green" size="3">{$user.jf}</font></span>
+			</div>
+			<div class="list-group-item">
+				<a href="{:U('shop')}" class="badge">购买</a>
+				<span class="glyphicon glyphicon-hourglass" aria-hidden="true">&nbsp;{:get_isvip($user['vip'],$user['vipend'],'No VIP')}</span>
+			</div>
+			<div class="list-group-item">
+				<a href="{:U('shop')}" class="badge">增加</a>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;配额：{:get_count('qqs',"uid='$user[uid]'",'qid')}/<font color="green" size="3">{$user.peie}</font></span>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-6">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">QQ列表<a href="{:U('add')}"><span class="glyphicon glyphicon-plus" aria-hidden="true" style="float:right;"></span></a></h3>
+			</div>
+			<br>
+			<div class="row" style="padding: 20px;">
+				<volist name="qqlist" id="qq" key="k">
+				<div class="col-xs-12 col-md-4">
+					<div class="list-group">
+						<h4 class="list-group-item list-group-item-info"><a href="{:U('qq','qid='.$qq['qid'])}">QQ:{$qq.qq}</a><a href="{:U('user','do=del&qid='.$qq['qid'])}" onClick="if(!confirm('确认删除QQ:{$qq.qq}')){return false;}"><span class="glyphicon glyphicon-remove" aria-hidden="true" style="float:right;"></span></a></h4>
+						<div class="list-group-item">
+							<span><img src="http://q1.qlogo.cn/g?b=qq&nk={$qq.qq}&s=100&t={:date("Ymd")}"></span>
+						</div>
+						<div class="list-group-item">
+							<a href="{:U('add','uin='.$qq['qq'])}" class="badge">更新</a>
+							<span class="glyphicon <if condition="$qq.sidzt gt 0">glyphicon-remove-circle red<else/>glyphicon-ok-circle green</if>" aria-hidden="true">&nbsp;S ID：<if condition="$qq.sidzt gt 0">过期<else/>正常</if></span>
+						</div>
+						<div class="list-group-item">
+							<a href="{:U('add','uin='.$qq['qq'])}" class="badge">更新</a>
+							<span class="glyphicon <if condition="$qq.skeyzt gt 0">glyphicon-remove-circle red<else/>glyphicon-ok-circle green</if>" aria-hidden="true">&nbsp;SKEY：<if condition="$qq.skeyzt gt 0">过期<else/>正常</if></span>
+						</div>
+					</div>
+				</div>
+				</volist>
+			</div>
+		</div>
+	</div>
+</div>
+</block>

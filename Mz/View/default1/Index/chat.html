@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+	<title>公共聊天室-{:C('web_name')}</title>
+    <meta name="keywords" content="{:C('web_index_keywords')}" />
+    <meta name="description" content="{:C('web_index_description')}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap-theme.min.css">
+	<script src="/Style/bootstrap/js/jquery.min.js"></script>
+	<script src="/Style/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/Style/js/default.js?1"></script>
+	<link rel="stylesheet" href="/Style/css/default.css?5">
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#clear').click(function(){
+		$("#chatpage").html('<div class="chat-ts">系统提示：你已成功清除聊天内容！</div>');
+	});
+	$('#look').click(function(){
+		self=$(this);
+		var id=self.attr('startchat');
+		if(id == 1){
+			alert('没有更早的聊天内容了！');
+			return;
+		}
+		if (self.attr("data-lock") === "true") return;
+			else self.attr("data-lock", "true");
+		self.html('加载中……');
+		var url="#";
+		vmz.postData(url,'do=look&id='+id, function(d) {
+			if(d.code ==0){
+				if(d.data){
+					$.each(d.data, function(i, chat){
+						if(chat.uid == '{$user.uid}'){
+							$("#chatpage").prepend('<div class="chat-user chat-me">['+chat.addtime+'] <span class="chatuser">'+chat.user+'</span> '+chat.id+'#</div><div class="chat-div"><div class="chat-content right">'+chat.content+' :</div></div>'); 
+						}else{
+							$("#chatpage").prepend('<div class="chat-user">#'+chat.id+' <span class="chatuser">'+chat.user+'</span> ['+chat.addtime+']</div><div class="chat-content">：'+chat.content+'</div>'); 
+						}
+						self.attr('startchat',chat.id);
+					}); 
+				}
+			}else{
+				alert(d.msg);
+			}
+			self.attr("data-lock", "false");
+			self.html('查看稍早内容^');
+		});
+	});
+	$('#send').click(function(){
+		self=$(this);
+		var content=$("#chatval").val();
+		if(content == ''){
+			alert('请输入聊天内容！');
+			return;
+		}
+		if (self.attr("data-lock") === "true") return;
+			else self.attr("data-lock", "true");
+		self.html('发送中……');
+		var id=self.attr('lastchat');
+		var url="#";
+		vmz.postData(url,'do=send&id='+id+'&content='+content, function(d) {
+			if(d.code ==0){
+				if(d.data){
+					$.each(d.data, function(i, chat){
+						if(chat.uid == '{$user.uid}'){
+							$("#chatpage").append('<div class="chat-user chat-me">['+chat.addtime+'] <span class="chatuser">'+chat.user+'</span> '+chat.id+'#</div><div class="chat-div"><div class="chat-content right">'+chat.content+' :</div></div>'); 
+						}else{
+							$("#chatpage").append('<div class="chat-user">#'+chat.id+' <span class="chatuser">'+chat.user+'</span> ['+chat.addtime+']</div><div class="chat-content">：'+chat.content+'</div>'); 
+						}
+						self.attr('lastchat',chat.id);
+					}); 
+					$('#body').scrollTop($('body')[0].scrollHeight);
+					$("#chatval").val('');
+				}
+			}else{
+				alert(d.msg);
+			}
+			self.attr("data-lock", "false");
+			self.html('发送');
+		});
+	});
+});
+function Loadmsg(){
+	var self=$('#send');
+	var id=self.attr('lastchat');
+	var url="#";
+	vmz.postData(url,'do=new&id='+id, function(d) {
+		if(d.code ==0){
+			if(d.data){
+				$.each(d.data, function(i, chat){
+					if(chat.uid == '{$user.uid}'){
+						$("#chatpage").append('<div class="chat-user chat-me">['+chat.addtime+'] <span class="chatuser">'+chat.user+'</span> '+chat.id+'#</div><div class="chat-div"><div class="chat-content right">'+chat.content+' :</div></div>'); 
+					}else{
+						$("#chatpage").append('<div class="chat-user">#'+chat.id+' <span class="chatuser">'+chat.user+'</span> ['+chat.addtime+']</div><div class="chat-content">：'+chat.content+'</div>'); 
+					}
+					self.attr('lastchat',chat.id);
+				}); 
+			}
+		}else{
+			alert(d.msg);
+		}
+	});
+}
+window.setInterval(Loadmsg, 30000);
+</script>
+</head>
+<body id="body">
+<div class="mznav">
+	<nav class="navbar">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navbar" style="margin-top: 20px;"><span class="sr-only">{:C('web_name')}</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+			<p class="navbar-brand">
+				<a href="/" class="navbar-logo">{:C('web_name')}</a>
+			</p>
+		</div>
+		<div class="collapse navbar-collapse" id="primary-navbar">
+			<ul class="nav navbar-nav navbar-right navbar-lean">
+				<if condition="$user['uid'] gt 0"><li><a href="{:U('user')}"><span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;</span>用户中心</a></li>
+				<li><a href="{:U('logout')}"><span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span>退出</a></li>
+				<else/>
+				<li><a href="{:U('login')}"><span class="glyphicon glyphicon-log-in" aria-hidden="true">&nbsp;</span>登录</a></li>
+				<li><a href="{:U('login','xz=reg')}"><span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;</span>注册</a></li>
+				</if>
+			</ul>
+		</div>
+	</div>
+	</nav>
+</div>
+<div class="page-container" style="width: 100%;padding: 15px;position: absolute;overflow: hidden;background: -webkit-linear-gradient(top, #A481AB, #62708B);">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12"><br>
+			<div class="panel panel-success">
+				<div class="panel-heading">聊天室<span class="right" id="look" startchat="{$startchat}">查看稍早内容^</span></div>
+				<div class="panel-body" id="chatpage">
+					<volist name="list" id="chat" key="k">
+					<if condition="$chat['uid'] eq $user['uid']">
+					<div class="chat-user chat-me">{$chat.addtime} <span class="chatuser">{$chat.user}</span> {$chat.id}#</div>
+					<div class="chat-div"><div class="chat-content right">{$chat.content} :</div></div>
+					<else/>
+					<div class="chat-user">#{$chat.id} <span class="chatuser">{$chat.user}</span> [{$chat.addtime}]</div>
+					<div class="chat-content">：{$chat.content}</div>
+					</if>
+					</volist>
+					<div class="chat-ts">系统提示：请文明聊天，勿刷屏，违者后果自负！</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="input-group">
+					<div class="input-group-addon" id="clear">清屏</div>
+					<input class="form-control" id="chatval" placeholder="请输入文明聊天内容">
+					<div class="input-group-addon" lastchat="{$lastchat}" id="send">发送</div>
+				</div>
+			</div>
+			<br>
+		</div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>

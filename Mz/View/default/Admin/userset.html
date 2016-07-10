@@ -1,0 +1,103 @@
+<extend name="common"/>
+<block name="title">修改{$douser.user}-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('index')}">管理后台</a></li>
+			<li class="{:U('userlist')}">用户列表</li>
+			<li class="active">{$douser.user}</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-6">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">修改{$douser.user}</div>
+			<form action="#" role="form" class="form-horizontal" method="post">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">UID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+					<input type="text" class="form-control" value="{$douser.uid}" disabled="disabled">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">用户名</div>
+					<input type="text" class="form-control" value="{$douser.user}" disabled="disabled">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">是否代理</div>
+					<select name="daili" class="form-control">
+						<option value ="0" selected="">不是</option>
+						<option value ="1" <if condition="$douser['daili'] gt 0">selected=""</if>>普通代理</option>
+					</select>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">是否VIP</div>
+					<select name="vip" class="form-control">
+						<option value ="0" selected="">不是</option>
+						<option value ="1" <if condition="$douser['vip'] gt 0">selected=""</if>>是</option>
+					</select>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">VIP到期</div>
+					<input type="text" class="form-control" name="vipend" value="{$douser.vipend}">
+				</div>
+			</div>						<div class="list-group-item">							<div class="input-group">					<div class="input-group-addon">配额数量</div>					<input type="text" class="form-control" name="peie" value="{$douser.peie}">				</div>			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">余额</div>
+					<input type="text" class="form-control" name="rmb" value="{$douser.rmb}">
+					<div class="input-group-addon">元</div>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">积分</div>
+					<input type="text" class="form-control" name="jf" value="{$douser.jf}">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">邮箱</div>
+					<input type="text" class="form-control" name="mail" value="{$douser.mail}">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">手机</div>
+					<input type="text" class="form-control" name="phone" value="{$douser.phone}">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">QQ</div>
+					<input type="text" class="form-control" name="qq" value="{$douser.qq}">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">重置密码为123456</div>
+					<select name="resetpwd"class="form-control">
+						<option value ="0" selected="">不重置</option>
+						<option value ="1">重置</option>
+					</select>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</block>

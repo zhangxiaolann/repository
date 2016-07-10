@@ -1,0 +1,166 @@
+<extend name="common"/>
+
+<block name="title">自助商城-{:C('web_name')}</block>
+
+<block name="page">
+
+<div class="row">
+
+	<div class="col-xs-12">
+
+		<ol class="breadcrumb">
+
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+
+			<li><a href="{:U('user')}">用户中心</a></li>
+
+			<li class="active">自助商城</li>
+
+		</ol>
+
+	</div>
+
+</div>
+
+
+
+<div class="row">
+
+
+
+	<div class="col-xs-12 col-md-12">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">商城公告</div>
+
+			{:stripslashes(C('gonggao_shop'))}
+
+		</div>
+
+	</div>
+	<div class="col-xs-12 col-md-4">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">开通续费VIP</div>
+
+			<form action="{:U('shop','&xz=vip')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="vip">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">VIP卡卡密</div>
+
+					<input type="text" class="form-control" name="km" placeholder="输入VIP卡卡密">
+
+				</div>
+
+			</div>
+
+			
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="确认使用" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+		
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">增加挂机配额</div>
+
+			<form action="{:U('shop','&xz=peie')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="peie">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">配额卡卡密</div>
+
+					<input type="text" class="form-control" name="km" placeholder="输入配额卡卡密">
+
+				</div>
+
+			</div>
+
+			
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="确认使用" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+	
+	<div class="col-xs-12 col-md-4">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">开通代挂权限</div>
+
+			<form action="{:U('shop','&xz=djdg')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="djdg">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">代挂卡密</div>
+
+					<input type="text" class="form-control" name="km" placeholder="输入代挂卡密">
+
+				</div>
+
+			</div>
+
+			<div class="input-group">
+
+					<div class="input-group-addon">开通代挂的QQ</div>
+
+					<select name="uin"class="form-control">
+
+						<?php if($qqlist=M('qqs')->field(array('*'))->where("uid='".$user['uid']."'")->select()){ foreach($qqlist as $row){ if(!$sidzt){ echo'<option value ="'.$row['qq'].'">'.$row['qq'].'</option>';}}} ?>
+
+					</select>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">代挂qq的密码</div>
+
+					<input type="text" class="form-control" name="qqpwd" placeholder="输入要代挂qq的密码">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="确认使用" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+	
+	
+
+</div>
+
+</block>

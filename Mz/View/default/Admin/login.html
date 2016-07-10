@@ -1,0 +1,23 @@
+<extend name="common"/>
+<block name="title">后台登录-{:C('web_name')}</block>
+<block name="page"><div class="page-header">	<div class="pull-left">		<ol class="breadcrumb">			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>			<li><a href="{:U('index')}">管理后台</a></li>			<li class="active">后台登录</li>		</ol>	</div></div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-4" style="float: center;margin: 0 auto;">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success" style="text-align: center;">后台登录</div>
+			<form action="#" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="add">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">后台密码</div>
+					<input type="password" class="form-control" name="pwd" placeholder="后台密码" value="{$pwd}">
+				</div>
+			</div>						<div class="list-group-item">				<div class="input-group">					<div class="input-group-addon">验证码</div>					<input type="text" class="form-control" name="code" placeholder="输入验证码"><br>					<img src="/Other/code.php?r={:time()}" onclick="this.src='/Other/code.php?'+Math.random();" title="点击更换验证码" width="100%">				</div>			</div>
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="马上登录" class="btn btn-primary btn-block">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</block>

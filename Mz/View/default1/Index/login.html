@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+	<title>秒赞登录-{:C('web_name')}</title>
+    <meta name="keywords" content="{:C('web_index_keywords')}" />
+    <meta name="description" content="{:C('web_index_description')}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap-theme.min.css">
+	<script src="/Style/bootstrap/js/jquery.min.js"></script>
+	<script src="/Style/bootstrap/js/bootstrap.min.js"></script>
+	<if condition="$alert">{$alert}</if>
+	<link rel="stylesheet" href="/Style/css/default.css?s3s7">
+</head>
+<body>
+<div class="mznav">
+	<nav class="navbar">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navbar" style="margin-top: 20px;"><span class="sr-only">{:C('web_name')}</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+			<p class="navbar-brand">
+				<a href="/" class="navbar-logo">{:C('web_name')}</a>
+			</p>
+		</div>
+		<div class="collapse navbar-collapse" id="primary-navbar">
+			<ul class="nav navbar-nav navbar-right navbar-lean">
+				<if condition="$user['uid'] gt 0"><li><a href="{:U('user')}"><span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;</span>用户中心</a></li>
+				<li><a href="{:U('logout')}"><span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span>退出</a></li>
+				<else/>
+				<li><a href="{:U('login')}"><span class="glyphicon glyphicon-log-in" aria-hidden="true">&nbsp;</span>登录</a></li>
+				<li><a href="{:U('login','xz=reg')}"><span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;</span>注册</a></li>
+				</if>
+			</ul>
+		</div>
+	</div>
+	</nav>
+</div>
+<div class="page-container" style="width: 100%;height: 100%;position: absolute;padding: 15px;background: -webkit-linear-gradient(top, #A481AB, #62708B);">
+	<div class="col-xs-12 col-md-6 col-md-4" style="margin: 0px auto;float: center;">
+		<div class="list-group mybox">
+			<if condition="$_GET['xz'] eq 'reg'">
+			<div class="list-group-item list-group-item-success"><a href="/">{:C('web_name')}</a>-注册<span class="right"><a href="{:U('login')}">【登录】</a></span></div>
+			<form action="?" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="reg">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">用户名</div>
+					<input type="text" class="form-control" name="user" placeholder="用户名/手机号/邮箱">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">密&nbsp;&nbsp;码&nbsp;&nbsp;</div>
+					<input type="password" class="form-control" name="pwd" placeholder="请输入密码">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">邮&nbsp;&nbsp;箱&nbsp;&nbsp;</div>
+					<input type="text" class="form-control" name="mail" placeholder="需验证,填写真实邮箱">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">验证码</div>
+					<input type="text" class="form-control" name="code" placeholder="输入验证码"><br>
+					<img src="/Other/code.php?r={:time()}" onclick="this.src='/Other/code.php?'+Math.random();" title="点击更换验证码" width="100%">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="注册" class="btn btn-primary btn-block">
+			</div>
+			</form>
+			<else/>
+			<div class="list-group-item list-group-item-success"><a href="/">{:C('web_name')}</a>-登录<span class="right"><a href="{:U('login','xz=reg')}">【注册】</a></span></div>
+			<form action="?" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="login">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">用户名</div>
+					<input type="text" class="form-control" name="user" placeholder="用户名/手机号/邮箱">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">密&nbsp;&nbsp;码&nbsp;&nbsp;</div>
+					<input type="password" class="form-control" name="pwd" placeholder="请输入密码">
+				</div>
+			</div>			<div class="list-group-item">				<div class="input-group">					<div class="input-group-addon">验证码</div>					<input type="text" class="form-control" name="code" placeholder="输入验证码"><br>					<img src="/Other/code.php?r={:time()}" onclick="this.src='/Other/code.php?'+Math.random();" title="点击更换验证码" width="100%">				</div>			</div>			
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">方&nbsp;&nbsp;式&nbsp;&nbsp;</div>
+					<select name="type"class="form-control">
+						<option value ="0" selected="">普通登录</option>
+						<option value ="1">安全登录(重置以前的登录)</option>
+					</select>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="登录" class="btn btn-primary btn-block">
+			</div>
+			</form>
+			</if>
+		</div>
+	</div>
+</div>
+</body>
+</html>

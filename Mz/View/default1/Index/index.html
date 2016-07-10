@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+	<title>{:C('web_index_title')}</title>
+    <meta name="keywords" content="{:C('web_index_keywords')}" />
+    <meta name="description" content="{:C('web_index_description')}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap-theme.min.css">
+	<script src="/Style/bootstrap/js/jquery.min.js"></script>
+	<script src="/Style/bootstrap/js/bootstrap.min.js"></script>
+	<if condition="$alert">{$alert}</if>
+	<link rel="stylesheet" href="/Style/css/default.css?3">
+</head>
+<body>
+<div class="mznav">
+	<nav class="navbar">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navbar" style="margin-top: 20px;"><span class="sr-only">{:C('web_name')}</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+			<p class="navbar-brand">
+				<a href="/" class="navbar-logo">{:C('web_name')}</a>
+			</p>
+		</div>
+		<div class="collapse navbar-collapse" id="primary-navbar">
+			<ul class="nav navbar-nav navbar-right navbar-lean">
+				<if condition="$user['uid'] gt 0"><li><a href="{:U('user')}"><span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;</span>用户中心</a></li>
+				<li><a href="{:U('logout')}"><span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span>退出</a></li>
+				<else/>
+				<li><a href="{:U('login')}"><span class="glyphicon glyphicon-log-in" aria-hidden="true">&nbsp;</span>登录</a></li>
+				<li><a href="{:U('login','xz=reg')}"><span class="glyphicon glyphicon-import" aria-hidden="true">&nbsp;</span>注册</a></li>
+				</if>
+			</ul>
+		</div>
+	</div>
+	</nav>
+</div>
+<div class="page-container" style="width: 100%;padding: 15px;overflow: hidden;background: -webkit-linear-gradient(top, #A481AB, #62708B);">
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12"><br>
+			<div class="carousel slide" id="carousel-477372">
+				<ol class="carousel-indicators">
+					<li data-slide-to="0" data-target="#carousel-477372">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-477372" class="active">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-477372">
+					</li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="item active">
+						<img alt="Carousel Bootstrap First" src="/Style/images/banner.jpg"/>
+						<div class="carousel-caption" style="text-shadow: 0 0 0;color: #FFFFFF;">
+							<h4>为什么选择我们</h4>
+							<p>因为我们更专业，服务更周到，功能运行更加稳定！正版程序有保障！</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Second" src="/Style/images/banner1.png" />
+						<div class="carousel-caption" style="text-shadow: 0 0 0;color: #617590;">
+							<h3>界面更加简洁</h3>
+							<p>新版本界面更加简洁、大气！手机用户访问更加快速和省流量！</p>
+						</div>
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Third" src="/Style/images/banner2.png" />
+						<div class="carousel-caption" style="text-shadow: 0 0 0;color: #617590;">
+							<h3>功能更齐全、实用</h3>
+							<p>平台功能齐全、稳定、实用！一直再努力做最好的离线秒赞平台！</p>
+						</div>
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-477372" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-477372" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+		<div class="col-xs-12"><br>
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title"><a href="{:U('chat')}"><b>[聊天室]</b></a>&nbsp;<?php
+					if($chat=M("chats")->field(array(C("DB_PREFIX").'chats.*',C("DB_PREFIX").'users.user'))->join("left join ".C("DB_PREFIX")."users on ".C("DB_PREFIX")."users.uid=".C("DB_PREFIX")."chats.uid")->order('id desc')->find()){
+						echo'<span class="chatuser">'.$chat['user'].'</span>:<font color=#333>'.mb_substr($chat['content'],0,50,'utf-8').'……['.$chat['addtime'].']</font>';
+					}
+					?></h3>
+				</div>
+			</div>
+				
+		</div>
+		<div class="col-xs-12">
+			<div class="jumbotron hidden-xs">
+				<h3>Welcome</h4>
+				<p>{:stripslashes(C('gonggao_welcome'))}</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-xs-12 col-md-4">
+			<div class="thumbnail">
+				<img alt="Bootstrap Thumbnail First" src="http://lorempixel.com/output/people-q-c-600-200-1.jpg" />
+				<div class="caption">
+					<h3>平台优势</h3>
+					<p>1、多协议自由切换！<br>2、独立服务器运行更加稳定！<br>3、正版授权程序，有售后保障！</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-4">
+			<div class="thumbnail">
+				<img alt="Bootstrap Thumbnail Second" src="http://lorempixel.com/output/city-q-c-600-200-1.jpg" />
+				<div class="caption">
+					<h3>拥有功能</h3>
+					<p>1、秒赞、秒评、包月转发、自动说说、空间签到、会员签到、钱包签到、删除说说等！<br>2、更多功能在努力添加中……</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-md-4">
+			<div class="thumbnail">
+				<img alt="Bootstrap Thumbnail Third" src="http://lorempixel.com/output/sports-q-c-600-200-1.jpg" />
+				<div class="caption">
+					<h3>网站信息</h3>
+					<p>1、目前会员数：{:get_count('users','','uid')}<br>2、已添加QQ数：{:get_count('qqs','','qid')}<br>3、站长QQ:<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={:C('web_qq')}&site=qq&menu=yes">{:C('web_qq')}</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-xs-12">
+			<table class="table  table-bordered">
+				<thead>
+					<tr class="danger">
+						<th>价格表</th>
+						<th>原价(元)</th>
+						<th>优惠价(元)</th>
+						<th>代理价(元)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="active">
+						<td>1个月VIP</td>
+						<td>5</td>
+						<td>5</td>
+						<td>2.5</td>
+					</tr>
+					<tr class="success">
+						<td>3个月VIP</td>
+						<td>14</td>
+						<td>14</td>
+						<td>7</td>
+					</tr>
+					<tr class="warning">
+						<td>6个月VIP</td>
+						<td>26</td>
+						<td>26</td>
+						<td>13</td>
+					</tr>
+					<tr class="danger">
+						<td>1年VIP</td>
+						<td>50</td>
+						<td>50</td>
+						<td>25</td>
+					</tr>
+					<tr class="active">
+						<td>1个配额</td>
+						<td>15</td>
+						<td>15</td>
+						<td>7.5</td>
+					</tr>
+					<tr class="success">
+						<td>3个配额</td>
+						<td>30</td>
+						<td>30</td>
+						<td>15</td>
+					</tr>
+					<tr class="warning">
+						<td>5个配额</td>
+						<td>45</td>
+						<td>45</td>
+						<td>22.5</td>
+					</tr>
+					<tr class="danger">
+						<td>成为代理</td>
+						<td colspan=3 align=center>100元一位，请联系QQ:<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={:C('web_qq')}&site=qq&menu=yes">{:C('web_qq')}</a></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-6" style="text-align: center;">
+			<img src="http://api.eathp.com/yz.php" width="85%">
+		</div>
+		<div class="col-xs-12 col-md-6"><br>
+			<?php
+				if($rows=M("qqs")->field(array('qq','addtime'))->order('qid desc')->limit(12)->select()){
+					foreach($rows as $row){
+						echo'<div class="col-xs-4 col-md-3"><a href="/Other/rz.php?uin='.$row['qq'].'" target="_blank"><img src="http://q2.qlogo.cn/headimg_dl?bs=qq&dst_uin='.$row['qq'].'&src_uin='.$row['qq'].'&fid='.$row['qq'].'&spec=100&url_enc=0&referer=bu_interface&term_type=PC" width="80px" height="80px" alt="'.$row['qq'].'" title="'.$row['qq'].'|添加时间:'.$row['addtime'].'★点击查看详情★"></a></div>';
+					}
+				}
+			?>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			{:stripslashes(C('gonggao_index_bottom'))}
+		</div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>

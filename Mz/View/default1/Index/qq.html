@@ -1,0 +1,83 @@
+<extend name="common"/>
+<block name="title">QQ{$qqrow.qq}-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('user')}">用户中心</a></li>
+			<li class="active">{$qqrow.qq}</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-success" style="overflow: auto;">
+			<div class="panel-heading" style="height:54px;">
+				<h3 class="panel-title"><span style="line-height:40px;">{$qqrow.qq}信息</span><span style="float:right"><a type="button" class="btn btn-danger" href="{:U('user','do=del&qid='.$qqrow['qid'])}" onClick="if(!confirm('确认删除QQ:{$qqrow.qq}')){return false;}">删除</a><a href="{:U('add','uin='.$qqrow['qq'])}" type="button" class="btn btn-success">更新</a></span></h3>
+			</div>
+			<div class="list-group-item col-xs-12 col-md-6">
+				<span class="<if condition="$qqrow.sidzt gt 0">red<else/>green</if>" aria-hidden="true">S ID&nbsp;:{$qqrow.sid}[<if condition="$qqrow.sidzt gt 0">过期<else/>正常</if>]</span>
+			</div>
+			<div class="list-group-item col-xs-12 col-md-6">
+				<span class="<if condition="$qqrow.skeyzt gt 0">red<else/>green</if>" aria-hidden="true">SKEY&nbsp;:{$qqrow.skey}[<if condition="$qqrow.skeyzt gt 0">过期<else/>正常</if>]</span>
+			</div>			<div class="list-group-item col-xs-12 col-md-6">				<span class="<if condition="$qqrow.skeyzt gt 0">red<else/>green</if>" aria-hidden="true">pc_p_skey&nbsp;:{$qqrow.pc_p_skey}[<if condition="$qqrow.skeyzt gt 0">过期<else/>正常</if>]</span>			</div>						<div class="list-group-item col-xs-12 col-md-6">				<span class="<if condition="$qqrow.skeyzt gt 0">red<else/>green</if>" aria-hidden="true">cp_p_skey&nbsp;:{$qqrow.cp_p_skey}[<if condition="$qqrow.skeyzt gt 0">过期<else/>正常</if>]</span>			</div>			
+			<div class="list-group-item col-xs-12 col-md-6">
+				<span>添加时间：{$qqrow.addtime}</span>
+			</div>
+			<div class="list-group-item col-xs-12 col-md-6">
+				<span>更多操作：<a href="http://m.qzone.com/infocenter?sid={$qqrow.sid}&g_ut=3&g_f=6676">访问空间</a>&nbsp;|&nbsp;<a href="/Other/rz.php?uin={$qqrow.qq}">秒赞认证</a></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">已开启的功能</div>
+			<?php $tools=array('auto'=>'自动更新','zan'=>'说说秒赞','reply'=>'说说秒评','zf'=>'转发说说','qt'=>'圈说图片','shuo'=>'自动说说','delshuo'=>'删除说说','delll'=>'删除留言','ly'=>'互刷留言','lw'=>'互刷礼物','zyzan'=>'互赞主页','3gqq'=>'离线挂扣','gcw'=>'离线挂宠','ht'=>'花藤服务','nianvipcj'=>'年会抽奖','qd'=>'空间签到','vipqd'=>'会员签到','yqd'=>'黄钻签到','lz'=>'绿钻签到','fzqd'=>'粉钻签到','gamevipqd'=>'蓝钻签到','ts'=>'图书签到','videoqd'=>'莱坞签到','cqqd'=>'超扣签到','qb'=>'钱包签到','lld'=>'领流量豆','dldqd'=>'乐斗签到','qunqd'=>'扣群签到','qunwenwenqd'=>'群问签到','cfqd'=>'C&nbsp;F&nbsp;签到','weiyunqd'=>'微云签到','qqgjqd'=>'管家签到','qd3366'=>'3366签到','mcqd'=>'牧场签到');
+			foreach($tools as $k=>$tool){
+				$onclick='';
+				if($do=$qqrow["is$k"]){
+					unset($tools["$k"]); 
+					if($k=='zan'||$k=='reply'||$k=='zf'||$k=='shuo'||$k=='qd'||$k=='delshuo'||$k=='ly'||$k=='ht'){
+						$url=U('qqset','qid='.$qqrow['qid'].'&xz='.$k);
+					}else{
+						$url=U('qq','qid='.$qqrow['qid'].'&change='.$k);
+						$onclick="onClick=\"if(!confirm('确认关闭".$tool."？')){return false;}\"";
+					}
+					if($do==2){
+						$btn="btn-success";
+					}else{
+						$btn="btn-warning";
+					}
+					echo'<div class="list-group-item"><span class="right"><a href="'.$url.'" class="btn '.$btn.'" '.$onclick.'>'.get_xz($do).'</a></span><span><button class="btn btn-default">'.$tool.'</button>&nbsp;/&nbsp;<button class="btn btn-default">'.date("m-d H:i:s",strtotime($qqrow["last$k"])).'</button></span></div>';
+				}	
+			}
+			?>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-danger">未开启的功能</div>
+			<?php
+			foreach($tools as $k=>$tool){
+				if($k=='zan'||$k=='reply'||$k=='zf'||$k=='shuo'||$k=='qd'||$k=='delshuo'||$k=='ly'||$k=='ht'){
+					$url=U('qqset','qid='.$qqrow['qid'].'&xz='.$k);
+				}else{
+					$url=U('qq','qid='.$qqrow['qid'].'&change='.$k);
+				}
+				echo'<div class="list-group-item"><span class="badge"><a href="'.$url.'" class="btn btn-default">开启</a></span><span><button class="btn btn-default">'.$tool.'</button></span></div>';
+			}
+			?>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-warning">空间助手</div>			<a href="{:U('djdg','qid='.$qqrow['qid'])}"  class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;<img src="/Style/images/new2.gif">等级代挂<font color=red>[热]</font></span></a>			
+			<a href="{:U('dxjc','qid='.$qqrow['qid'])}"  class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;<img src="/Style/images/new2.gif">单项好友检测<font color=red>[热]</font></span></a>						<a href="{:U('qq','qid='.$qqrow['qid'].'&lq=qqz')}" class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;<img src="/Style/images/new2.gif">刷圈圈99+&nbsp;<font color=red>[热]</font></span></a>
+			<a href="{:U('mzjc','qid='.$qqrow['qid'])}"  class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;秒赞好友检测</span></a>						<a href="{:U('qzmusic','qid='.$qqrow['qid'])}" target="_blank" class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;空间背景音乐查询</span></a>						<a href="{:U('qq','qid='.$qqrow['qid'].'&lq=caipiao')}" class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;领取彩票VIP图标&nbsp;</span></a>						<a href="{:U('qq','qid='.$qqrow['qid'].'&lq=tushu')}" class="list-group-item"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;领取图书VIP&nbsp;</span></a>			
+		</div>
+	</div>
+</div>
+</block>

@@ -1,0 +1,62 @@
+<extend name="common"/>
+<block name="title">后台管理中心-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('index')}">管理后台</a></li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-3">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-info">
+				<h3 class="panel-title">后台基本配置</h3>
+			</div>
+			<a class="list-group-item" href="{:U('set','xz=web')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;网站设置</span></a>
+			<a class="list-group-item" href="{:U('set','xz=gonggao')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;公告配置</span></a>
+			<a class="list-group-item" href="{:U('set','xz=mb')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;模板选择</span></a>
+			<a class="list-group-item" href="{:U('set','xz=mail')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;邮箱配置</span></a>
+			<a class="list-group-item" href="{:U('set','xz=netnum')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;服务器数量</span></a>
+			<a class="list-group-item" href="{:U('set','xz=cron')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;监控说明</span></a>
+			<a class="list-group-item" href="{:U('set','xz=qd')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;签到送VIP设置</span></a>						<a class="list-group-item" href="{:U('set','xz=qqtx')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;QQ提醒设置</span></a>						<a class="list-group-item" href="{:U('set','xz=djdg')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;等级代挂配置</span></a>
+			<a class="list-group-item" href="{:U('set','xz=mb')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;网站模板选择</span></a>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-3">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-warning">
+				<h3 class="panel-title">数据列表管理</h3>
+			</div>
+			<a class="list-group-item" href="{:U('qqlist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;Q&nbsp;Q&nbsp;列表</span></a>
+			<a class="list-group-item" href="{:U('userlist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;用户列表</span></a>
+			<a class="list-group-item" href="{:U('userlist','xz=vip')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;VIP列表</span></a>
+			<a class="list-group-item" href="{:U('index','do=delendvip')}" onClick="if(!confirm('确认清理到期VIP？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理到期VIP</span></a>
+			<a class="list-group-item" href="{:U('index','do=delendqq')}" onClick="if(!confirm('确认清理失效QQ？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理失效QQ</span></a>
+			<a class="list-group-item" href="{:U('index','do=delnovip')}" onClick="if(!confirm('确认清理非VIP用户？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理非VIP用户</span></a>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-3">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-info">
+				<h3 class="panel-title">卡密列表管理</h3>
+			</div>
+			<a class="list-group-item" href="{:U('km','xz=sy')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;试用卡卡密</span></a>
+			<a class="list-group-item" href="{:U('km','xz=vip')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;VIP卡卡密</span></a>
+			<a class="list-group-item" href="{:U('km','xz=peie')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;配额卡卡密</span></a>
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-3">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-danger">
+				<h3 class="panel-title">代理设置</h3>
+			</div>
+			<a class="list-group-item" href="{:U('set','xz=dailiprice')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;代理拿卡价格</span></a>
+			<a class="list-group-item" href="{:U('dllist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;代理用户列表</span></a>
+		</div>
+	</div>
+</div>
+</block>

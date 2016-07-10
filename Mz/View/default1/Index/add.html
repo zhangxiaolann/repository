@@ -1,0 +1,63 @@
+<extend name="common"/>
+<block name="title">添加挂机-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('user')}">用户中心</a></li>
+			<li class="active">添加挂机</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">添加说明</div>
+			{:stripslashes(C('gonggao_add'))}
+		</div>
+	</div>
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">添加QQ账号</div>
+			<form action="{:U('add')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="add">
+			<if condition="$msg">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">结&nbsp;&nbsp;果&nbsp;&nbsp;</div>
+					<span class="form-control red">{$msg}</span>
+				</div>
+			</div>
+			</if>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">&nbsp;&nbsp;Q&nbsp;&nbsp;Q&nbsp;&nbsp;</div>
+					<input type="text" class="form-control" name="uin" placeholder="Q Q号码" value="{$uin}">
+				</div>
+			</div>
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">密&nbsp;&nbsp;码&nbsp;&nbsp;</div>
+					<input type="password" class="form-control" name="pwd" placeholder="Q Q密码" value="{$pwd}">
+				</div>
+			</div>
+			<div class="list-group-item <if condition="!$code">hide</if>">
+				<div class="input-group">
+					<div class="input-group-addon">验证码</div>
+					<input type="text" class="form-control" name="code" placeholder="请输入验证码" value=""><br>
+					<input type="hidden" name="sig" value="{$sig}">
+					<img class="form-control" style="height:132px;" src="/Other/getpic.php?uin={$uin}&sig={$sig}">
+				</div>
+				
+			</div>
+				
+			
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="确认添加&nbsp;/&nbsp;更新" class="btn btn-primary btn-block">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</block>

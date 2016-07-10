@@ -1,0 +1,39 @@
+<extend name="common"/>
+<block name="title">空间背景音乐查询-{:C('web_name')}</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('user')}">用户中心</a></li>
+			<li class="active">空间背景音乐查询</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div>
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">使用说明</div>
+			<div class="list-group-item reed"><span>使用此功能可以获取任意QQ空间的背景音乐，同时可以将下载地址做为音乐外链使用。</span></div>
+		</div>
+	</div>
+	<div>
+		<div class="list-group">
+			<div class="list-group-item list-group-item-success">空间背景音乐查询</div>
+			<form action="{:U('qzmusic','qid='.$qqrow['qid'])}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="music">
+			<div class="list-group-item">
+				<div class="input-group">
+					<div class="input-group-addon">请输入要查询的QQ:</div>
+					<input type="text" class="form-control" name="uin" placeholder="输入要查询的QQ:">
+				</div>
+			</div>
+			
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="查询" class="btn btn-primary btn-block">
+			</div>
+			</form>
+		</div>		
+	</div>		<div class="panel panel-info">				<div class="panel-heading">			<div class="panel-title" align="center">{$uin}的查询结果</div>		</div>			</div>		<div class="panel-collapse collapse in">		<div class="panel-body">			<table class="table  table-bordered" style="table-layout: fixed;">			<tbody id="content">				<tr><td class="mzwidthtd" align="center"">歌曲名称</td><td class="mzwidthtd" align="center">下载地址</td></tr>										<volist name="name[2]" id="song">													<php>$i--;</php>													<tr><td class="mztd"><php>print_r($name[1][$i]);</php></td><td class="mztd"><a href="http://stream.qqmusic.tc.qq.com/<php>print_r($name[2][$i]);</php>">下载地址1</a>&nbsp;|&nbsp;<a href="http://tsmusic24.tc.qq.com/<php>print_r($name[2][$i]);</php>">下载地址2</a></td></tr>													<php>$i++;</php>													</volist>									</tbody>			</table>		</div>	</div>	
+</div>
+</block>
