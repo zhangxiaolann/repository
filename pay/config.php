@@ -1,12 +1,9 @@
 <?php
-/*
-By 创梦 QQ1126786437
-*/
-//购买页公告
+
 $anounce='平台VIP：<br />一个月5元,三个月14元（推荐）,半年26元,一年50元,永久100元。<br />挂号配额：<br />每增加一个需要15元，配额为永久使用。';
 
 //支付宝
-$alipay='sb@grr.la';
+$alipay='sh@grr.la';
 
 //购买项目
 $project='<option value="5">包月30天VIP</option>

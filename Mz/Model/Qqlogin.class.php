@@ -1,5 +1,8 @@
 <?php
-
+// 部分方法借鉴彩虹
+// 此程序由微秒赞（洛绝尘）深度定制修改 <1031601644@qq.com>
+// 底包为快乐是福1.81 <815856515@qq.com>
+// 人不要脸，天下无敌。 儿子你要改版权爸爸也不拦你，尤其是龙魂儿子
 
 namespace Mz\Model;
 class Qqlogin extends \Think\Model {
@@ -63,7 +66,7 @@ class Qqlogin extends \Think\Model {
 					$cp_p_skey = $cp_p_skey_cookie[1];
 					preg_match("/Location: (.*?)\r\n/iU", $cpcheck_sig_data, $newsid_3gqq_url);
 					$sid="no sid";
-					//$sid=$this->getsid($newsid_3gqq_url[1]);
+					//$this->getsid($newsid_3gqq_url[1]);
 				}
 				if($pc_p_skey && $sid){
 					$this->json = '{"code":0,"uin":"' . $this->uin . '","sid":"' . $sid . '","skey":"' . $skey . '","pc_p_skey":"' . $pc_p_skey . '","cp_p_skey":"' . $cp_p_skey . '"}';
@@ -139,8 +142,8 @@ class Qqlogin extends \Think\Model {
 		if(strlen($sig)==56){
 			$url='http://captcha.qq.com/cap_union_show?captype=3&aid=549000912&uin='.$this->uin.'&cap_cd='.$sig.'&v=0.0672220'.time();
 			$data=$this->get_curl($url,0,1);
-			if($sig = $this->getSubstr($data, "var g_click_cap_sig=\"", "\",g_cap_postmsg_seq=")){
-				$this->json='{"code":-1,"sig":"'.$sig.'"}';
+			if(preg_match("/g\_click\_cap\_sig=\"(.*?)\";/", $data, $arr)){
+				$this->json='{"code":-1,"sig":"'.$arr[1].'"}';
 			}else{
 				exit("<script language='javascript'>alert('获取验证码失败，请稍候重试！');history.go(-1);</script>");
 			}

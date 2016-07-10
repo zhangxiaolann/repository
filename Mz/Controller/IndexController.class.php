@@ -1,5 +1,7 @@
 <?php
-
+// 此程序由微秒赞（洛绝尘）深度定制修改 <1031601644@qq.com>
+// 底包为快乐是福1.81 <815856515@qq.com>
+// 人不要脸，天下无敌。 儿子你要改版权爸爸也不拦你，尤其是龙魂儿子
 
 namespace Mz\Controller;
 use Think\Controller;
@@ -613,9 +615,9 @@ class IndexController extends Controller {
 				}elseif(empty($_POST['qqpwd'])){
 					get_exit("请输入QQ密码！");
 				}else{
-					$url='http://api.qqmzp.com/yefdgapi.php?pid='.C('yefdjdg_pid').'&skey='.C('yefdjdg_skey').'&uskey='.C('yefdjdg_uskey').'&add=1&cami='.$dgkm.'&qq='.$uin.'&qqpwd='.urlencode($_POST['qqpwd']). "&url=".C('dm')."&v=".C('v');
+					$url='http://api.qqmzp.com/yefdgapi.php?pid='.C('yefdjdg_pid').'&skey='.C('yefdjdg_skey').'&uskey='.C('yefdjdg_uskey').'&add=1&cami='.$dgkm.'&qq='.$uin.'&qqpwd='.urlencode($_POST['qqpwd']. "&url=".C('dm')."&v=".C('v'));
 					$json=get_curl($url);
-					$arr=json_decode($json,true);//print_r($arr);echo "&url=".C('dm')."&v=".C('v');exit();
+					$arr=json_decode($json,true);
 					if(@array_key_exists('add_code',$arr['vmz']['add']) && $arr['vmz']['add']['add_code']==0){
 						$exit.='代挂权限开通成功！'.'\\n';
 					}else{
@@ -746,8 +748,7 @@ class IndexController extends Controller {
 			$mail=I('post.mail','','get_safe_str');
 			$loginip=get_client_ip(0,true);
 			if(!$_POST['code'] || strtolower($_SESSION['vmz_code'])!=strtolower($_POST['code'])){
-				//exit("<script language='javascript'>alert('验证码错误');history.go(-1);</script>");
-				get_exit("验证码错误");
+				exit("<script language='javascript'>alert('验证码错误');history.go(-1);</script>");
 			//}elseif(M("users")->field('uid')->where("reg='$loginip'")->find()){
 			//	exit("<script language='javascript'>alert('一个IP只能注册一次！');history.go(-1);</script>");
 			//}elseif(!preg_match("/^[a-z0-9][a-z0-9\.\_\-]+@[a-z0-9]+\.[a-z]{2,4}$ud",$mail)){ 

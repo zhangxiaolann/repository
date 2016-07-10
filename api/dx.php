@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: text/html; charset=UTF-8');
 $sq=require(base64_decode("Li4vQ29tbW9uL0NvbmYvc3EucGhw"));
 error_reporting(E_ALL & ~E_NOTICE);

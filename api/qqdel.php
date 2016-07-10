@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(0);
 function get_curl($url, $post, $referer, $cookie, $header, $ua, $nobaody=0)
 {

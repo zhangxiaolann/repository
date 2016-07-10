@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 error_reporting(E_ALL & ~E_NOTICE);
 @header('Content-Type: text/html; charset=UTF-8');
 if(file_exists('install.lock')){
@@ -49,10 +49,10 @@ $step=is_numeric($_GET['step'])?$_GET['step']:'1';
 					3、如违反以上规定，无任何解释理由，拉黑名单。
 				</div>
 				<div class="list-group-item">
-					4、本程序原作者快乐是福QQ815856515，破解修复：小浩
+					4、本程序原作者快乐是福QQ815856515，
 				</div>
 				<div class="list-group-item">
-					5、小浩QQ：1126786437
+					5、二开。BY：小浩
 				</div>
 				<div class="list-group-item">
 					<a href="?step=2" class="btn btn-block btn-warning">同意以上协议，进行下一步</a>

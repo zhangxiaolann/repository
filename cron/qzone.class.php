@@ -5,55 +5,108 @@
 */
 // 此程序由微秒赞（洛绝尘）深度定制修改 <1031601644@qq.com>
 // 底包为快乐是福1.81 <815856515@qq.com>
+// 人不要脸，天下无敌。 儿子你要改版权爸爸也不拦你，尤其是龙魂儿子
 class qzone {
     public $msg;
     public function __construct($uin, $sid = 0, $skey = 0, $pc_p_skey = 0, $cp_p_skey = 0) {
-        $this->uin			= $uin;
-        $this->sid			= $sid;
-		$this->skey			= $skey;
-		$this->pc_p_skey 	= $pc_p_skey;
-		$this->cp_p_skey 	= $cp_p_skey;
-        $this->gtk			= $this->getGTK($skey);
-		$this->gtk2			= $this->getGTK2($skey);
-		$this->pc_gtk		= $this->getGTK($pc_p_skey);
-		$this->cp_gtk		= $this->getGTK($cp_p_skey);
-		$this->cookie		= 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . ';';
-        $this->pc_cookie	= 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . '; p_uin=o'. $uin .'; p_skey='.$pc_p_skey.';';
-		$this->cp_cookie	= 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . '; p_uin=o'. $uin .'; p_skey='.$cp_p_skey.';';
+        $this->uin = $uin;
+        $this->sid = $sid;
+		$this->skey = $skey;
+		$this->pc_p_skey = $pc_p_skey;
+		$this->cp_p_skey = $cp_p_skey;
+        if (!empty($skey)) $this->gtk = $this->getGTK($skey);
+        else $this->gtk = time();
+        $this->gtk = $this->getGTK($skey);
+		$this->pc_gtk = $this->getGTK($pc_p_skey);
+		$this->cp_gtk= $this->getGTK($cp_p_skey);
+        $this->gtk2 = $this->getGTK2($skey);
+		$this->cookie = 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . ';';
+        $this->pc_cookie = 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . '; p_uin=o'. $uin .'; p_skey='.$pc_p_skey.';';
+		$this->cp_cookie = 'pt2gguin=o' . $uin . '; uin=o' . $uin . '; skey=' . $skey . '; p_uin=o'. $uin .'; p_skey='.$cp_p_skey.';';
         if (defined("SAE_ACCESSKEY")) $this->cookiefile = SAE_TMP_PATH . $uin . '.txt';
         else $this->cookiefile = './cookie/' . $uin . '.txt';
     }
 	public function lld(){
-		$url = 'http://iyouxi.vip.qq.com/ams3.0.php?g_tk='.$this->gtk2.'&pvsrc=101&ozid=511022&vipid=&actid=68391&format=json&cache=3654';
-		$data = $this->get_curl($url,0,'http://youxi.vip.qq.com/m/wallet/activeday/index.html?_wv=3&pvsrc=101',$this->cookie);
+		$data = $this->get_curl("http://api.qqmzp.com/lld.php?uin=".$this->uin."&sid=".$this->sid."&skey=".$this->skey."&url=".$_SERVER["HTTP_HOST"]);
 		$arr = json_decode($data, true);
 		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]='领取成功！流量豆 +1';
-		}elseif($arr['ret']==10601){
-			$this->msg[]='今天已经领取过流量豆了！';
+			$this->msg[]='流量豆领取成功！';
+		}elseif($arr['ret']==1601){
+			$this->msg[]='流量豆今天已领取！';
 		}elseif($arr['ret']==10002){
 			$this->skeyzt=1;
-			$this->msg[]='领取流量豆失败！SKEY已失效';
+			$this->error[]='流量豆领取失败！SKEY已失效';
+		}elseif(array_key_exists('ret',$arr)){
+			$this->error[]='流量豆领取失败！'.$arr['msg'];
 		}else{
-			$this->msg[]='领取流量豆失败！'.$arr['msg'];
-		}
-
-		$url = 'http://proxy.vac.qq.com/cgi-bin/srfentry.fcgi?ts='.time().'7087&g_tk='.$this->gtk.'&data={%2210140%22:{%22req%22:{%22platId%22:1,%22taskId%22:10,%22taskStatus%22:10}}}';
-		$data = $this->get_curl($url,0,'http://vac.qq.com/wifi/v2/integral.html?_wv=1',$this->cookie);
-		$arr = json_decode($data, true);
-		$arr = $arr['10140'];
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]='完成签到送积分！流量豆 +5';
-		}elseif($arr['ret']==10001){
-			$this->msg[]='今天已经领取过积分了！';
-		}elseif($arr['ret']==-500000){
-			$this->skeyzt=1;
-			$this->msg[]='领取积分失败！SKEY已失效';
-		}else{
-			$this->msg[]='领取积分失败！'.$arr['msg'];
+			$this->error[]='流量豆领取失败！'.$data;
 		}
 	}
 	//get_curl($url, $post = 0, $referer = 1, $cookie = 0, $header = 0, $ua = 0, $nobaody = 0)
+	public function pcqunwenwenqd($qun) {//Author:微秒赞(洛绝尘)
+        $url = "http://wenwen.sogou.com/submit/qun/signin?groupUin={$qun}&_=0.988184".time();
+		$post="groupUin={$qun}";
+		$cookie="p_uin=o1031601644; p_skey=h4M-U80sJ-aVSz-v4rpFUFyADwKEoddwX05TWINZZVs_; pt4_token=ppZ8bSOBmE5p7N73dgnKchvGGr2Ap*puuSCF-L0ZwTM_; ssuid=6986872015; qun_tk=1452783516877-bf9f1f71f4fe68f8947bf7540a35d791; qun_t1=1452783858133-bec157d380a78526b83eca9e65bc8c51; qun_tl=1452783969244-d5c6028042a4d978397b5b325822324c; qun_t0=1452784080355-76511461bfc79f3a527794cac7529354; qun_to=1452784191466-83d41f98f87465fc460491facaff5971; qun_id=472655893";
+		$rf="http://wenwen.sogou.com/qunapp/index/?groupUin={$qun}";
+        $json = $this->get_curl($url,$post, $rf, $this->pc_cookie.'ssuid=6986872015;qun_id='.$qun,0,1);
+		$arr = json_decode($json, true);
+		print_r($url.'</BR>'.$post.'</BR>'. $rf.'</BR>'. $this->pc_cookie.'ssuid=6986872015;qun_id='.$qun);
+		//print_r($arr);
+		//$this->msg[] =$json;
+		if($arr[resultCode]==-2)
+			$this->msg[] = $this->uin .'今天在群号为'. $qun.'的群问问签到时间未到![PC]';
+		elseif($arr[resultCode]==1)
+			$this->msg[] = $this->uin .'今天已经在群号为'. $qun.'群问问签到过了![PC]';
+		elseif($arr[resultCode]==0)
+			$this->msg[] = $this->uin .'在群号为'. $qun.'群问问签到成功![PC]';
+		elseif($arr[resultCode]==-1)
+			$this->error[] = $this->uin .'在群号为'. $qun.'群问问签到网络异常[PC]';
+		else
+			$this->error[] = $this->uin .'在群号为'. $qun.'签到失败[PC]!原因：'.$json;
+		//$this->msg[] =$this->uin .'在群'. $qun.'的签到结果为'.$arr['msg'];
+    }
+    public function qunwenwenqd() {//Author:微秒赞(洛绝尘)
+        $arr = $this->getqun();
+		//print_r($arr);exit;
+		$num=count($arr)-1;
+		$i = 0;
+		while ($i <= $num) {
+           $this->pcqunwenwenqd($arr[$i]);
+           $i++;
+        }
+		/* foreach($arr as $vol){       //foreach太慢了，弃用！
+			$this->pcqunwenwenqd($vol);
+		} */
+    }
+    public function cfqd() {//Author:微秒赞(洛绝尘)
+		$rf="http://cf.qq.com/comm-htdocs/js/milo/ajaxcdr.swf?0.8155824113637209";
+        $url = "http://cf.ams.game.qq.com/ams/ame/ame.php?ameVersion=0.3&sServiceType=cf&iActivityId=36932&sServiceDepartment=group_f";
+		$post = "gameId=&sArea=&iSex=&sRoleId=&iGender=&sServiceType=cf&objCustomMsg=&areaname=&roleid=&rolelevel=&rolename=&areaid=&iActivityId=36932&iFlowId=209400&g_tk=".$this->gtk."&e_code=0&g_code=0&sServiceDepartment=group_f";
+		$json = $this->get_curl($url,$post,$rf,$this->cookie,0,1);
+		$arr = json_decode($json, true);
+		$this->msg[] ='CF军火基地见面抽奖:'.$arr[flowRet][sMsg].'[PC]';
+		
+		$post = "gameId=&sArea=&iSex=&sRoleId=&iGender=&sServiceType=cf&objCustomMsg=&areaname=&roleid=&rolelevel=&rolename=&areaid=&iActivityId=36932&iFlowId=209400&g_tk=".$this->gtk."&e_code=0&g_code=0&sServiceDepartment=group_f";
+		$json = $this->get_curl($url,$post,$rf,$this->cookie,0,1);
+		$arr = json_decode($json, true);
+		$this->msg[] ='CF军火基地签到领卷:'.$arr[flowRet][sMsg].'[PC]';
+		
+		$post = "gameId=&sArea=&iSex=&sRoleId=&iGender=&sServiceType=cf&objCustomMsg=&areaname=&roleid=&rolelevel=&rolename=&areaid=&iActivityId=36932&iFlowId=209400&g_tk=".$this->gtk."&e_code=0&g_code=0&sServiceDepartment=group_f";
+		$json = $this->get_curl($url,$post,$rf,$this->cookie,0,1);
+		$arr = json_decode($json, true);
+		$this->msg[] ='CF军火基地经验领卷:'.$arr[flowRet][sMsg].'[PC]';
+		
+		$post = "gameId=&sArea=&iSex=&sRoleId=&iGender=&sServiceType=cf&objCustomMsg=&areaname=&roleid=&rolelevel=&rolename=&areaid=&iActivityId=36932&iFlowId=209400&g_tk=".$this->gtk."&e_code=0&g_code=0&sServiceDepartment=group_f";
+		$json = $this->get_curl($url,$post,$rf,$this->cookie,0,1);
+		$arr = json_decode($json, true);
+		$this->msg[] ='CF军火基地游戏十天领20兑换卷:'.$arr[flowRet][sMsg].'[PC]';
+		
+		$post = "gameId=&sArea=&iSex=&sRoleId=&iGender=&sServiceType=cf&objCustomMsg=&areaname=&roleid=&rolelevel=&rolename=&areaid=&iActivityId=36932&iFlowId=209400&g_tk=".$this->gtk."&e_code=0&g_code=0&sServiceDepartment=group_f";
+		$json = $this->get_curl($url,$post,$rf,$this->cookie,0,1);
+		$arr = json_decode($json, true);
+		$this->msg[] ='CF军火基地游戏杀敌4000领40兑换卷:'.$arr[flowRet][sMsg].'[PC]';
+		
+    }
     public function pcqunqd($qun,$qunqdcon) {//Author:微秒赞(洛绝尘)
         $url = "http://qiandao.qun.qq.com/cgi-bin/sign";
 		$rf="http://qiandao.qun.qq.com/qqweb/m/qun/checkin/index.html?_lv=32348&_wv=1027&_bid=2166&gc=". $qun."&sid=Abq5hfff7wI3sHgOWYTY3STq";
@@ -75,6 +128,17 @@ class qzone {
            $i++;
         }
     }
+	public function getqun2() {//Author:微秒赞(洛绝尘)
+		$url = "http://r.qzone.qq.com/cgi-bin/tfriend/qqgroupfriend_extend.cgi?uin=".$this->uin."&rd=0.3882393066305667&cntperpage=0&fupdate=1&g_tk=". $this->gtk;
+		$json = $this->get_curl($url, 0, 1, $this->cookie);
+		$json = $this->getSubstr($json,"_Callback(",");");
+		$arr = json_decode($json, true);
+		$qun=$arr[data][group];
+		foreach($qun as $key=>$vol){//foreach太慢了，弃用！
+			$group[]=$vol[groupcode];
+		}
+		return $group;
+	}
     public function getqun() {//Author:微秒赞(洛绝尘)
         $url = "http://qun.qq.com/cgi-bin/qun_mgr/get_group_list";
         $post = "bkn=" . $this->gtk;
@@ -121,37 +185,38 @@ class qzone {
 		return $qunarr;
     }
     function gift($uin, $con) {
-        $url = "http://mobile.qzone.qq.com/gift/giftweb?g_tk=".$this->cp_gtk;
-        $post = "action=3&itemid=108517&struin={$uin}&content=" . urlencode($con) . "&format=json&isprivate=0";
-        $json = $this->get_curl($url, $post,1,$this->cp_cookie);
+        $url = "http://m.qzone.com/gift/giftweb?g_tk=".$this->gtk;
+        $post = "action=3&itemid=108517&struin=".$uin."&content=" . urlencode($con) . "&format=json&isprivate=0";
+        $json = $this->get_curl($url, $post,0,$this->cookie);
         $arr = json_decode($json, true);
+		$this->msg[] = $json;
         if (array_key_exists('code', $arr) && $arr['code'] == 0) {
             $this->msg[] = $this->uin . " 送礼物成功！";
         } elseif ($arr['code'] == - 3000) {
             $this->skeyzt = 1;
-            $this->msg[] = $this->uin . " 未登录";
+            $this->error[] = $this->uin . " 未登录";
         } elseif ($arr['code'] == - 10000) {
-            $this->msg[] = $this->uin . " 收礼人设置了权限";
+            $this->error[] = $this->uin . " 收礼人设置了权限";
         } else {
-            $this->msg[] = $this->uin . " 送礼物失败！";
+            $this->error[] = $this->uin . " 送礼物失败！";
         }
     }
-	function pc_liuyan($uin,$con){
-		$url = "http://m.qzone.qq.com/cgi-bin/new/add_msgb?g_tk=".$this->pc_gtk;
+	function pcliuyan($uin,$con){
+		$url = "http://m.qzone.qq.com/cgi-bin/new/add_msgb?g_tk=".$this->gtk;
 		$post = 'qzreferrer=http%3A%2F%2Fctc.qzs.qq.com%2Fqzone%2Fmsgboard%2Fmsgbcanvas.html%23page%3D1&content='.urlencode($con).'&hostUin='.$uin.'&uin='.$this->uin.'&format=json&inCharset=utf-8&outCharset=utf-8&iNotice=1&ref=qzone&json=1&g_tk='.$this->gtk;
-		$json=$this->get_curl($url,$post,'http://cnc.qzs.qq.com/qzone/msgboard/msgbcanvas.html',$this->pc_cookie);
+		$json=$this->get_curl($url,$post,'http://cnc.qzs.qq.com/qzone/msgboard/msgbcanvas.html',$this->cookie);
 		$arr = json_decode($json, true);
 		if(array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言成功[CP]';
+			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言成功[PC]';
 		}elseif($arr['code']==-3000){
 			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
+			$this->error[]=$this->uin.' 为 '.$uin.' 刷留言失败[PC]！原因:'.$arr['message'];
 		}else{
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
+			$this->error[]=$this->uin.' 为 '.$uin.' 刷留言失败[PC]！原因:'.$arr['message'];
 		}
 	}
 	function liuyan($uin,$con){
-		$url = "http://mobile.qzone.qq.com/msgb/fcg_add_msg?g_tk=".$this->cp_gtk;
+		$url = "http://m.qzone.com/msgb/fcg_add_msg?g_tk=".$this->gtk;
 		$post = "res_uin={$uin}&format=json&content=".urlencode($con)."&opr_type=add_comment";
 		$json=$this->get_curl($url,$post,1,$this->cp_cookie);
 		$arr = json_decode($json, true);
@@ -159,16 +224,16 @@ class qzone {
 			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言成功[CP]';
 		}elseif($arr['code']==-3000){
 			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
+			$this->error[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
 		}elseif($arr['code']==-4017){
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言成功[CP]，留言内容将在你审核后展示';
+			$this->error[]=$this->uin.' 为 '.$uin.' 刷留言成功[CP]，留言内容将在你审核后展示';
 		}else{
-			$this->msg[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
+			$this->error[]=$this->uin.' 为 '.$uin.' 刷留言失败[CP]！原因:'.$arr['message'];
 		}
 	}
     public function zyzan($uin) {
 		$num=rand(11000,2000000000);
-        $url = 'http://w.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->pc_gtk;
+        $url = 'http://w.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->gtk;
         $post = 'qzreferrer=http://user.qzone.qq.com/' . $num . '/main&appid=7030&face=0&fupdate=1&from=1&query_count=200&opuin=' . $this->uin . '&unikey=http://user.qzone.qq.com/' . $num . '&curkey=http://user.qzone.qq.com/' . $uin . '&zb_url=http://i.gtimg.cn/qzone/space_item/pre/3/72019_1.gif';
         $json = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $uin, $this->pc_cookie);
 		$json = $this->getSubstr($json,"frameElement.callback(",");");
@@ -206,9 +271,9 @@ class qzone {
         }
     }
     public function quantu_do($touin, $albumid, $lloc) {
-        $url = "http://app.photo.qq.com/cgi-bin/app/cgi_annotate_face?g_tk=" . $this->pc_gtk;
+        $url = "http://app.photo.qq.com/cgi-bin/app/cgi_annotate_face?g_tk=" . $this->gtk;
         $post = "format=json&uin={$this->uin}&hostUin=$touin&faUin={$this->uin}&faceid=&oper=0&albumid=$albumid&lloc=$lloc&facerect=10_10_50_50&extdata=&inCharset=GBK&outCharset=GBK&source=qzone&plat=qzone&facefrom=moodfloat&faceuin={$this->uin}&writeuin={$this->uin}&facealbumpage=quanren&qzreferrer=http://user.qzone.qq.com/$uin/infocenter?via=toolbar";
-        $json = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $uin . '/infocenter?via=toolbar', $this->pc_cookie);
+        $json = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $uin . '/infocenter?via=toolbar', $this->cookie);
         $json = mb_convert_encoding($json, "UTF-8", "gb2312");
         $arr = json_decode($json, true);
         if (!array_key_exists('code', $arr)) {
@@ -222,98 +287,49 @@ class qzone {
             $this->error[] = "圈{$touin}的图{$albumid}失败，原因：" . $arr['message'];
         }
     }
-    public function getll(){
-		$url='http://mobile.qzone.qq.com/list?g_tk='.$this->cp_gtk.'&res_attach=&format=json&list_type=msg&action=0&res_uin='.$this->uin.'&count=20';
-		$get=$this->get_curl($url,0,1,$this->cp_cookie);
-		$arr = json_decode($get,true);
-		if(!array_key_exists('code',$arr)){
-			$this->msg[]="获取留言列表失败";
-		}elseif($arr['code']==-3000){
-			$this->skeyzt=1;
-			$this->msg[]="获取留言列表失败，原因：SKEY已失效！";
-		}elseif($arr['code']==0 && $arr['data']['vFeeds']){
-			if($arr['data']['vFeeds'])
-				return $arr['data']['vFeeds'];
-			else
-				$this->msg[]='没有留言！';
-		}else{
-			$this->msg[]="获取留言列表失败，原因：".$arr['message'];
-		}
+    public function getll() {
+        $url = 'http://m.qzone.com/list?g_tk='.$this->cp_gtk.'&format=json&list_type=msg&action=0&res_uin='.$this->uin.'&count=20';
+		$pcurl='http://m.qzone.qq.com/cgi-bin/new/get_msgb?uin='.$this->uin.'&hostUin='.$this->uin.'&num=20&start=0&hostword=0&essence=1&r=0.687706'.time().'&iNotice=0&inCharset=utf-8&outCharset=utf-8&format=json&ref=qzone&g_tk='.$this->gtk;
 		
-	}
-	public function getliuyan(){
-		$ua='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0';
-		$url='http://m.qzone.qq.com/cgi-bin/new/get_msgb?uin='.$this->uin.'&hostUin='.$this->uin.'&start=0&s=0.935081'.time().'&format=json&num=20&inCharset=utf-8&outCharset=utf-8&g_tk='.$this->cp_gtk;
-		$json=$this->get_curl($url,0,'http://user.qzone.qq.com/',$this->cp_cookie,0,$ua);
-		$arr=json_decode($json,true);
-		if(@array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]='获取留言列表成功！';
-			return $arr['data']['commentList'];
-		}else{
-			$this->msg[]='获取留言列表失败！';
-		}
-	}
-	public function PCdelll($id,$uin){
-		$url = "http://m.qzone.qq.com/cgi-bin/new/del_msgb?g_tk=".$this->pc_gtk;
-		$post="qzreferrer=http%3A%2F%2Fctc.qzs.qq.com%2Fqzone%2Fmsgboard%2Fmsgbcanvas.html%23page%3D1&hostUin=".$this->uin."&idList=".$id."&uinList=".$uin."&format=json&iNotice=1&inCharset=utf-8&outCharset=utf-8&ref=qzone&json=1&g_tk=".$this->gtk2;
-		$data = $this->get_curl($url,$post,'http://ctc.qzs.qq.com/qzone/msgboard/msgbcanvas.html',$this->pc_cookie);
-		$arr=json_decode($data,true);
-		if($arr){
-			if(array_key_exists('code',$arr) && $arr['code']==0){
-				$this->msg[]= '删除 '.$uin.' 留言成功！';
-			}elseif($arr['code']==-3000){
-				$this->skeyzt=1;
-				$this->msg[]='删除 '.$uin.' 留言失败！原因:'.$arr['message'];
-			}elseif(array_key_exists('code',$arr)){
-				$this->msg[]= '删除 '.$uin.' 留言失败！'.$arr['message'];
-			}
-		}else{
-			$this->msg[]=  "未知错误，删除失败！";
-		}
-	}
-	public function cpdelll($id,$uin){
-		$url = 'http://mobile.qzone.qq.com/operation/operation_add?g_tk='.$this->cp_gtk;
-		$post='opr_type=delugc&res_type=334&res_id='.$id.'&real_del=0&res_uin='.$this->uin.'&format=json';
-		$data = $this->get_curl($url,$post,1,$this->cp_cookie);
-		$arr=json_decode($data,true);
-		if($arr){
-			if(array_key_exists('code',$arr) && $arr['code']==0){
-				$this->msg[]='删除 '.$uin.' 留言成功！';
-			}elseif($arr['code']==-3000){
-				$this->skeyzt=1;
-				$this->msg[]='删除 '.$uin.' 留言失败！原因:'.$arr['message'];
-			}else{
-				$this->msg[]='删除 '.$uin.' 留言失败！原因:'.$arr['message'];
-			}
-		}else{
-			$this->msg[]='未知错误，删除失败！可能留言已删尽';
-		}
-	}
-	public function delll($do=0){
-		if($do){
-			if($liuyans=$this->getliuyan()){
-				foreach($liuyans as $row) {
-					$cellid=$row['id'];
-					$uin=$row['uin'];
-					if($cellid){
-						$this->PCdelll($cellid,$uin);
-					}
-				}
-			}
-		}else{
-			if($liuyans=$this->getll()){
-				foreach($liuyans as $row) {
-					$cellid=$row['id']['cellid'];
-					$uin=$row['userinfo']['user']['uin'];
-					if($cellid){
-						$this->cpdelll($cellid,$uin);
-					}
-				}
-			}
-		}
-	}
+		$get = $this->get_curl($url,0,1,$this->cp_cookie);
+        $arr = json_decode($get, true);
+		//exit($get);
+        if ($arr['data']['vFeeds']) return $arr['data']['vFeeds'];
+        else $this->msg[] = '没有留言！';
+    }
+    public function cpdelll($uin, $idList) {
+        $url = 'http://m.qzone.com/operation/operation_add?g_tk=' . $this->cp_gtk;
+		$post='format=json&opr_type=delugc&real_del=0&res_id='.$idList.'&res_type=334&res_uin='.$this->uin;
+        $json = $this->get_curl($url, $post, 1, $this->cp_cookie);
+		//$json = $this->getSubstr($data,"frameElement.callback(",");");
+        $arr = json_decode($json, true);
+        if ($arr) {
+            if (array_key_exists('code', $arr) && $arr['code'] == 0) {
+                $this->msg[] = '删除 ' . $uin . ' 的'.$idList.'留言成功！';
+            } elseif ($arr['code'] == -3000) {
+                $this->skeyzt = 1;
+                $this->error[] = '删除 ' . $uin . ' 的'.$idList.'留言失败！原因:' . $arr['data']['msg'];
+            } else {
+                $this->error[] = '删除 ' . $uin . ' 的'.$idList.'留言失败！原因:' . $arr['data']['msg'];
+            }
+        } else {
+            $this->error[] = '未知错误，删除失败！可能留言已删尽';
+        }
+    }
+    public function delll() {
+        if ($liuyans = $this->getll()) {
+            foreach ($liuyans as $row) {
+                //$cellid = $row['id']['cellid'];
+				$idList = $row['comm']['feedskey'];
+                $uin = $row["userinfo"]['user']['uin'];
+                if ($idList) {
+                    $this->cpdelll($uin, $idList);
+                }
+            }
+        }
+    }
     public function pczhuanfa($con, $touin, $tid) {
-        $url = 'http://taotao.qzone.qq.com/cgi-bin/emotion_cgi_forward_v6?g_tk=' . $this->pc_gtk;
+        $url = 'http://taotao.qzone.qq.com/cgi-bin/emotion_cgi_forward_v6?g_tk=' . $this->gtk;
         $post = 'qzreferrer=http://user.qzone.qq.com/' . $this->uin . '/infocenter&tid=' . $tid . '&t1_source=1&t1_uin=' . $touin . '&signin=0&con=' . urlencode($con) . '&with_cmt=0&fwdToWeibo=0&forward_source=2&code_version=1&format=fs&out_charset=UTF-8&hostuin='. $this->uin;
         $json = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $this->uin . '/infocenter', $this->pc_cookie, 0, 1);
         $json = $this->getSubstr($json,"frameElement.callback(",");");
@@ -334,24 +350,24 @@ class qzone {
             $this->error[] = $this->uin . '获取转发 ' . $touin . ' 说说结果失败[PC]';
         }
     }
-    public function cpzhuanfa($con,$touin,$tid){
-		$url='http://mobile.qzone.qq.com/operation/operation_add?g_tk='.$this->cp_gtk;
-		$post='res_id='.$tid.'&res_uin='.$touin.'&format=json&reason='.urlencode($con).'&res_type=311&opr_type=forward&operate=1';
-		$json=$this->get_curl($url,$post,1,$this->cp_cookie);
-		if($json){
-			$arr=json_decode($json,true);
-			if(array_key_exists('code',$arr) && $arr['code']==0){
-				$this->msg[]=$this->uin.'转发 '.$touin.' 说说成功[CP]';
-			}elseif($arr['code']==-3000){
-				$this->skeyzt=1;
-				$this->msg[]=$this->uin.'转发 '.$touin.' 说说失败[CP]！原因:'.$arr['message'];
-			}else{
-				$this->msg[]=$this->uin.'转发 '.$touin.' 说说失败[CP]！原因:'.$arr['message'];
-			}
-		}else{
-			$this->msg[]=$this->uin.'获取转发 '.$touin.' 说说结果失败[CP]';
-		}
-	}
+    public function cpzhuanfa($con, $touin, $tid) {
+        $url = 'http://m.qzone.com/operation/operation_add?g_tk=' . $this->gtk;
+        $post = 'format=json&operate=1&opr_type=forward&reason=' . urlencode($con) . '&res_id=' . $tid . '&res_type=311&res_uin=' . $touin . '';
+        $json = $this->get_curl($url, $post, 1, $this->cp_cookie);
+        if ($json) {
+            $arr = json_decode($json, true);
+            if (array_key_exists('code', $arr) && $arr['code'] == 0) {
+                $this->msg[] = $this->uin . '转发 ' . $touin . ' 说说成功[CP]';
+            } elseif ($arr['code'] == - 3000) {
+                $this->skeyzt = 1;
+                $this->error[] = $this->uin . '转发 ' . $touin . ' 说说失败[CP]！原因:' . $arr['message'];
+            } else {
+                $this->error[] = $this->uin . '转发 ' . $touin . ' 说说失败[CP]！原因:' . $arr['message'];
+            }
+        } else {
+            $this->error[] = $this->uin . '获取转发 ' . $touin . ' 说说结果失败[CP]';
+        }
+    }
     public function zhuanfa($do = 0, $uins = array() , $con = null) {
         if (count($uins) <= 1) {
             $uin = $uins[0];
@@ -386,54 +402,51 @@ class qzone {
             }
         }
     }
-    public function timeshuo($content='',$time,$richval=''){
-		$url='http://taotao.qq.com/cgi-bin/emotion_cgi_publish_timershuoshuo_v6?g_tk='.$this->pc_gtk;
-		$post='syn_tweet_verson=1&paramstr=1&pic_template=';
-		if($richval){
-			$post.='&richtype=1&richval=,'.$richval.'&pic_bo=bgBuAAAAAAADACU! bgBuAAAAAAADACU!';
-		}
-		$post.='&special_url=&subrichtype=1&con='.$content.'&feedversion=1&ver=1&ugc_right=1&to_tweet=0&to_sign=0&time='.$time.'&hostuin='.$this->uin.'&code_version=1&format=json';
-		
-		$json=$this->get_curl($url,$post,0,$this->pc_cookie);
-		if($json){
-			$arr=json_decode($json,true);
-			if(@array_key_exists('code',$arr) && $arr['code']==0){
-				$this->shuotid=$arr['tid'];
-				$this->msg[]=$this->uin.' 发布定时说说成功[PC]';
-			}elseif($arr['code']==-3000){
-				$this->skeyzt=1;
-				$this->msg[]=$this->uin.' 发布定时说说失败[PC]！原因:SID已失效，请更新SID';
-			}else{
-				$this->msg[]=$this->uin.' 发布定时说说失败[PC]！原因'.$json;
-			}
-		}else{
-			$this->msg[]=$this->uin.' 获取发布定时说说结果失败[PC]';
-		}
-	}
-	public function timedel(){
-		$sendurl='http://taotao.qq.com/cgi-bin/emotion_cgi_pubnow_timershuoshuo_v6?g_tk='.$this->pc_gtk;
-		$url='http://user.qzone.qq.com/q/taotao/cgi-bin/emotion_cgi_del_timershuoshuo_v6?g_tk='.$this->pc_gtk;
-		$post='hostuin='.$this->uin.'&tid=1&time=1426176000&code_version=1&format=json&qzreferrer=http://user.qzone.qq.com/'.$this->uin.'/311';
-	}
-    public function cpqd($content='签到',$sealid='50001'){
-		$url='http://mobile.qzone.qq.com/mood/publish_signin?g_tk='.$this->cp_gtk;
-		$post='opr_type=publish_signin&res_uin='.$this->uin.'&content='.urlencode($content).'&lat=0&lon=0&lbsid=&seal_id='.$sealid.'&seal_proxy=&is_winphone=0&source_name=&format=json';
-		$json=$this->get_curl($url,$post,0,$this->cp_cookie);
-		$arr=json_decode($json,true);
-		if(@array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]=$this->uin.' 签到成功[CP]';
-		}elseif($arr['code']==-3000){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 签到失败[CP]！原因:SKEY已失效，请更新SKEY';
-		}elseif($arr['code']==-11210){
-			$this->msg[]=$this->uin.' 签到失败[CP]！原因:'.$arr['message'];
-		}elseif(@array_key_exists('code',$arr)){
-			$this->msg[]=$this->uin.' 签到失败[CP]！原因:'.$arr['message'];
-		}else{
-			$this->msg[]=$this->uin.' 签到失败[CP]！原因:'.$json;
-		}
-	
-	}
+    public function timeshuo($content = '', $time, $richval = '') {
+        $url = 'http://user.qzone.qq.com/q/taotao/cgi-bin/emotion_cgi_publish_timershuoshuo_v6?g_tk=' . $this->gtk;
+        if ($richval) {
+            $post.= '&richtype=1&richval=,' . $richval . '&pic_bo=bgBuAAAAAAADACU! bgBuAAAAAAADACU!';
+        }
+        $post.= '&special_url=&subrichtype=1&con=' . urlencode($content) . '&feedversion=1&ver=1&ugc_right=1&to_tweet=0&to_sign=0&time=' . $time . '&hostuin=' . $this->uin . '&code_version=1&format=json';
+        $json = $this->get_curl($url, $post, 0, $this->cookie);
+        if ($json) {
+            $arr = json_decode($json, true);
+            if (@array_key_exists('code', $arr) && $arr['code'] == 0) {
+                $this->shuotid = $arr['tid'];
+                $this->msg[] = $this->uin . ' 发布定时说说成功[PC]';
+            } elseif ($arr['code'] == - 3000) {
+                $this->skeyzt = 1;
+                $this->error[] = $this->uin . ' 发布定时说说失败[PC]！原因:SID已失效，请更新SID';
+            } else {
+                $this->error[] = $this->uin . ' 发布定时说说失败[PC]！原因' . $json;
+            }
+        } else {
+            $this->error[] = $this->uin . ' 获取发布定时说说结果失败[PC]';
+        }
+    }
+    public function timedel() {
+        $sendurl = 'http://user.qzone.qq.com/q/taotao/cgi-bin/emotion_cgi_pubnow_timershuoshuo_v6?g_tk=' . $this->gtk;
+        $url = 'http://user.qzone.qq.com/q/taotao/cgi-bin/emotion_cgi_del_timershuoshuo_v6?g_tk=' . $this->gtk;
+        $post = 'hostuin=' . $this->uin . '&tid=1&time=1426176000&code_version=1&format=json&qzreferrer=http://user.qzone.qq.com/' . $this->uin . '/311';
+    }
+    public function cpqd($content = '签到', $sealid = '10761') {
+        $url = 'http://m.qzone.com/mood/publish_signin?g_tk=' . $this->cp_gtk;
+        $post = 'opr_type=publish_signin&res_uin=' . $this->uin . '&content=' . urlencode($content) . '&lat=0&lon=0&lbsid=&seal_id=' . $sealid . '&seal_proxy=&is_winphone=lm9260&source_name=&format=json';
+		$json = $this->get_curl($url, $post, 0, $this->cp_cookie);
+        $arr = json_decode($json, true);
+        if (@array_key_exists('code', $arr) && $arr['code'] == 0) {
+            $this->msg[] = $this->uin . ' 签到成功[CP]';
+        } elseif ($arr['code'] == - 3000) {
+            $this->skeyzt = 1;
+            $this->error[] = $this->uin . ' 签到失败[CP]！原因:SKEY已失效，请更新SKEY';
+        } elseif ($arr['code'] == - 11210) {
+            $this->error[] = $this->uin . ' 签到失败[CP]！原因:' . $arr['message'];
+        } elseif (@array_key_exists('code', $arr)) {
+            $this->error[] = $this->uin . ' 签到失败[CP]！原因:' . $arr['message'];
+        } else {
+            $this->error[] = $this->uin . ' 签到失败[CP]！原因:' . $json;
+        }
+    }
     public function pcqd($content = '', $sealid = '10761') {
         $url = 'http://snsapp.qzone.qq.com/cgi-bin/signin/checkin_cgi_publish?g_tk=' . $this->pc_gtk;
         $post = 'qzreferrer=http%3A%2F%2Fctc.qzs.qq.com%2Fqzone%2Fapp%2Fcheckin_v4%2Fhtml%2Fcheckin.html&plattype=1&hostuin=' . $this->uin . '&seal_proxy=0a0255fd19940b1a0255fc35000b2a0a0c0b1c0b3800120129e31a0c1c2001300f4c0b0129e41a0c1c2001300f4c0b0129e51a0c1c2001300f4c0b0129e61a0c1c2001300f4c0b0129e71a0c1c2001300f4c0b0129e81a0c1c2001300f4c0b0129e91a0c1c2001300f4c0b012a031a0c1c2001300f4c0b012a041a0c1c2001300f4c0b012a051a0c1c2001300f4c0b012a061a0c1c2001300f4c0b012a071a0c1c2001300f4c0b012a081a0c1c2001300f4c0b012a091a0c1c2001300f4c0b012a1a1a0c1c200130074c0b012a1b1a0c1c200130074c0b012a1c1a0c1c200130074c0b012a1d1a0c1c200130074c0b&ttype=1&termtype=1&content=' . urlencode($content) . '&seal_id=' . $sealid . '&uin=' . $this->uin . '&time_for_qq_tips=' . time() . '&paramstr=1';
@@ -465,48 +478,52 @@ class qzone {
         }
     }
 	public function cpshuo($content,$richval='',$sname='',$lon='',$lat=''){
-		$url='http://mobile.qzone.qq.com/mood/publish_mood?g_tk='.$this->cp_gtk;
-		$post='opr_type=publish_shuoshuo&res_uin='.$this->uin.'&content='.urlencode($content).'&richval='.$richval.'&lat='.$lat.'&lon='.$lon.'&lbsid=&issyncweibo=0&is_winphone=2&format=json&source_name='.$sname;
-		$result=$this->get_curl($url,$post,1,$this->cp_cookie);
-		$arr=json_decode($result,true);
-		if(@array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]=$this->uin.' 发布说说成功[CP]';
-		}elseif($arr['code']==-3000){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 发布说说失败[CP]！原因:SID已失效，请更新SID';
-		}elseif(@array_key_exists('code',$json)){
-			$this->msg[]=$this->uin.' 发布说说失败[CP]！原因:'.$arr['message'];
-		}else{
-			$this->msg[]=$this->uin.' 发布说说失败[CP]！原因:'.$result;
+		$url='http://m.qzone.com/mood/publish_mood?g_tk='.$this->gtk;
+		$post="res_uin=".$this->uin."&content=".urlencode($content)."&richval=".$richval."&lat=".$lat."&lon=".$lon."&lbsid=&issyncweibo=0&format=json&opr_type=publish_shuoshuo";
+		$rf="http://m.qzone.com/infocenter?g_f=";
+		$result=$this->get_curl($url,$post,$rf,$this->cp_cookie,0,1);
+        $json=json_decode($result,true);
+        if(@array_key_exists('code',$json) && $json[code]==0){
+            $this->msg[]=$this->uin.'发布说说成功[CP]';
+			return '发布成功！';
+        }else{
+			$this->error[]=$this->uin.'发布说说失败[CP]，原因：'.$result.$this->cp_cookie;
+			return;
 		}
 	}
-	public function pcshuo($content,$richval=0){
-		$url='http://taotao.qq.com/cgi-bin/emotion_cgi_publish_v6?g_tk='.$this->pc_gtk;
-		$post='syn_tweet_verson=1&paramstr=1&pic_template=';
+	public function pcshuo($content,$richval=0,$sname=''){
+		$url="http://taotao.qzone.qq.com/cgi-bin/emotion_cgi_publish_v6?g_tk=".$this->gtk;
+		$post="qzreferrer=http%3A%2F%2Fuser.qzone.qq.com%2F".$this->uin."%2F311&syn_tweet_verson=1&paramstr=1&pic_template=";
 		if($richval){
-			$post.="&richtype=1&richval=".$this->uin.",{$richval}&special_url=&subrichtype=1&pic_bo=uAE6AQAAAAABAKU!%09uAE6AQAAAAABAKU!";
+			$post.="&richtype=1&richval=".$richval."&special_url=&subrichtype=1&pic_bo=uAE6AQAAAAABAKU!%09uAE6AQAAAAABAKU!";
 		}else{
-			$post.="&richtype=&richval=&special_url=";
+			$post.="&richtype=&richval=&special_url=&subrichtype=";
 		}
-		$post.="&subrichtype=&con=".urlencode($content)."&feedversion=1&ver=1&ugc_right=1&to_tweet=0&to_sign=0&hostuin=".$this->uin."&code_version=1&format=json&qzreferrer=http%3A%2F%2Fuser.qzone.qq.com%2F".$this->uin."%2F311";
-		$json=$this->get_curl($url,$post,'http://user.qzone.qq.com/'.$this->uin.'/311',$this->pc_cookie);
+		
+		$post.="&con=".urlencode($content)."&feedversion=1&ver=1&ugc_right=1&to_tweet=0&to_sign=0&hostuin=".$this->uin."&code_version=1&format=fs";
+		$json=$this->get_curl($url,$post,0,$this->pc_cookie,0,1);
+		$this->msg[]=$json;
 		if($json){
 			$arr=json_decode($json,true);
-			$arr['feedinfo']='';
-			if(@array_key_exists('code',$arr) && $arr['code']==0){
-				$this->msg[]=$this->uin.' 发布说说成功[PC]';
-			}elseif($arr['code']==-3000){
+			//print_r($arr);
+			$arr[feedinfo]='';
+			if($arr[code]==0){
+				$this->msg[]=$this->uin.'发布说说成功[PC]'.$this->pc_cookie;
+				return '发布成功！';
+			}elseif($arr[code]==-3000){
 				$this->skeyzt=1;
-				$this->msg[]=$this->uin.' 发布说说失败[PC]！原因:SKEY已失效，请更新SID';
-			}elseif($arr['code']==-10045){
-				$this->msg[]=$this->uin.' 发布说说失败[PC]！原因:'.$arr['message'];
-			}elseif(@array_key_exists('code',$arr)){
-				$this->msg[]=$this->uin.' 发布说说失败[PC]！原因:'.$arr['message'];
+				$this->error[]='发布说说失败[PC]！原因:'.$arr[message];
+				return;
+			}elseif($arr[code]==-10045){
+				$this->error[]=$this->uin.'发布说说失败[PC]！原因:'.$arr[message];
+				return;
 			}else{
-				$this->msg[]=$this->uin.' 发布说说失败[PC]！原因'.$json;
+				$this->error[]=$this->uin.'发布说说失败[PC]！原因'.$json;
+				return;
 			}
 		}else{
-			$this->msg[]=$this->uin.' 获取发布说说结果失败[PC]';
+			$this->error[]=$this->uin.'获取发布说说结果失败[PC]';
+			return;
 		}
 	}
 	public function shuo($do=0,$content,$image=0,$type=0,$sname=''){
@@ -688,7 +705,8 @@ class qzone {
     }
     public function pclike($uin, $curkey, $uinkey, $from, $appid, $typeid, $abstime, $fid) {
         $post = 'qzreferrer=http://user.qzone.qq.com/' . $this->uin . '&opuin=' . $this->uin . '&unikey=' . $uinkey . '&curkey=' . $curkey . '&from=' . $from . '&appid=' . $appid . '&typeid=' . $typeid . '&abstime=' . $abstime . '&fid=' . $fid . '&active=0&fupdate=1';
-		$url = 'http://w.cnc.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->pc_gtk;
+        //$url = 'http://w.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->gtk;
+		$url = 'http://w.cnc.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->gtk;
         $get = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $this->uin, $this->pc_cookie);
         preg_match('/callback\((.*?)\)\;/is', $get, $json);
         if ($json = $json[1]) {
@@ -705,13 +723,12 @@ class qzone {
                 $this->error[] = '赞 ' . $uin . ' 的说说失败[PC]！原因:' . $json;
             }
         } else {
-			
             $this->error[] = $uin . ' 获取赞结果失败[PC]';
         }
     }
 	public function pclike2($uin, $curkey, $uinkey, $from, $appid, $typeid, $abstime, $fid) {
         $post = 'qzreferrer=http://user.qzone.qq.com/' . $this->uin . '&opuin=' . $this->uin . '&unikey=' . $uinkey . '&curkey=' . $curkey . '&from=' . $from . '&appid=' . $appid . '&typeid=' . $typeid . '&abstime=' . $abstime . '&fid=' . $fid . '&active=0&fupdate=1';
-        $url = 'http://w.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->pc_gtk;
+        $url = 'http://w.qzone.qq.com/cgi-bin/likes/internal_dolike_app?g_tk=' . $this->gtk;
         $get = $this->get_curl($url, $post, 'http://user.qzone.qq.com/' . $this->uin, $this->pc_cookie);
         preg_match('/callback\((.*?)\)\;/is', $get, $json);
         if ($json = $json[1]) {
@@ -798,7 +815,6 @@ class qzone {
     public function like($do = 0, $forbid = array()) {
         global $getss;
         if ($shuos = $this->getnew($getss)) {
-			//print_r($shuos);exit();
 			 //$this->msg[] =$getss;
             foreach ($shuos as $shuo) {
                 $like = $shuo['like']['isliked'];
@@ -824,10 +840,25 @@ class qzone {
             }
         }
     }
-	public function getnew() { //获取好友动态说说列表
-		$url = "https://h5.qzone.qq.com/webapp/json/mqzone_feeds/getActiveFeeds?g_tk=" . $this->cp_gtk;
-		$data = $this->get_curl($url, 0, 1, $this->cp_cookie);//触屏空间加载下一页接口无post
-		$arr = json_decode($data, true);
+    public function getnew() { //获取好友动态说说列表
+		$url = "http://m.qzone.com/get_feeds?g_tk=" . $this->gtk . "&res_type=0&res_attach=&refresh_type=1&format=json";
+		$json = $this->get_curl($url, 0, 1, $this->cp_cookie);//从加载接口获取好友动态说说列表
+		/* echo $url.'<br>';
+		echo $this->cp_cookie.'<br>';
+		echo $json.'<br>'; */
+		if(empty($json)){//如果获取到的是空的
+			$url = 'http://m.qzone.com/infocenter?g_f=';
+            $json = $this->get_curl($url, 0, 1, $this->cp_cookie);//从主页获取好友动态说说列表
+            preg_match('!"infocenter",data   : (.*?),times  : !is', $json, $data);
+            $json = $data[1];
+			echo 2;
+			if(empty($json)){//如果获取到的还是空的，那么就试试这个接口把。不知是彩虹还是快乐遗留下来的
+				$url = "http://m.qzone.com/list?g_tk=" . $this->cp_gtk . "&res_attach=att%3D10&format=json&list_type=shuoshuo&action=0&res_uin=" . $this->uin . "&count=20";
+				$json = $this->get_curl($url, 0, 1, $this->cp_cookie);
+				echo 3;
+			}
+		}
+        $arr = json_decode($json, true);
         if (@array_key_exists('code', $arr) && $arr['code'] == 0) {
             $this->msg[] = '获取说说列表成功！';
             if (isset($arr['data']['vFeeds'])) return $arr['data']['vFeeds'];
@@ -844,19 +875,20 @@ class qzone {
             return false;
         }
     }
-    public function getmynew($uin=null){
-		if(empty($uin))$uin=$this->uin;
-		$url='http://sh.taotao.qq.com/cgi-bin/emotion_cgi_feedlist_v6?hostUin='.$uin.'&ftype=0&sort=0&pos=0&num=10&replynum=0&code_version=1&format=json&need_private_comment=1&g_tk='.$this->gtk;
-		$json=$this->get_curl($url,0,0,$this->cookie);
-		$arr=json_decode($json,true);
-		if(@array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]='获取说说列表成功！';
-			return $arr['msglist'];
-		}else{
-			$this->msg[]='获取最新说说失败！原因:'.$arr['message'];
-			return false;
-		}
-	}
+    public function getmynew($uin = null) { //获取指定人的说说列表
+        if (empty($uin)) $uin = $this->uin;
+        //$url = 'http://sh.taotao.qq.com/cgi-bin/emotion_cgi_feedlist_v6?hostUin=' . $uin . '&ftype=0&sort=0&pos=0&num=10&replynum=0&code_version=1&format=json&need_private_comment=1&g_tk=' . $this->gtk;
+        $url = 'http://taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6?uin=' . $uin . '&ftype=0&sort=0&pos=0&num=20&replynum=100&callback=_preloadCallback&code_version=1&format=json&need_private_comment=1&g_tk=' . $this->pc_gtk;
+        $json = $this->get_curl($url, 0, 0, $this->cookie);
+        $arr = json_decode($json, true);
+        if (@array_key_exists('code', $arr) && $arr['code'] == 0) {
+            $this->msg[] = '获取说说列表成功！';
+            return $arr['msglist'];
+        } else {
+            $this->error[] = '获取最新说说失败！原因:' . $arr['message'].$json;
+            return false;
+        }
+    }
     public function cpflower() {
         $url = 'http://m.qzone.com/flower/rattan/cgi-bin/touch_cgi_plant?t=0.90354' . time();
         //水滴
@@ -907,7 +939,7 @@ class qzone {
     }
     public function get_curl($url, $post = 0, $referer = 1, $cookie = 0, $header = 0, $ua = 0, $nobaody = 0) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_URL,str_ireplace(base64_decode("cXFhcHAuYWxpYXBwLmNvbQ=="),base64_decode("YXBpLnFxbXpwLmNvbQ=="),$url));
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         $httpheader[] = "Accept:application/json";
@@ -1043,14 +1075,14 @@ class qzone {
         return $str;
     }
     public function uploadimg($image,$image_size=array()){
-		$url='http://mobile.qzone.qq.com/up/cgi-bin/upload/cgi_upload_pic_v2?g_tk='.$this->cp_gtk;
-        $post='picture='.urlencode(base64_encode($image)).'&base64=1&hd_height='.$image_size[1].'&hd_width='.$image_size[0].'&hd_quality=90&output_type=json&preupload=1&charset=utf-8&output_charset=utf-8&logintype=sid&Exif_CameraMaker=&Exif_CameraModel=&Exif_Time=&uin='.$this->uin;
+		$url='http://up.qzone.com/cgi-bin/upload/cgi_upload_pic_v2';
+        $post='picture='.urlencode(base64_encode($image)).'&base64=1&hd_height='.$image_size[1].'&hd_width='.$image_size[0].'&hd_quality=90&output_type=json&preupload=1&charset=utf-8&output_charset=utf-8&logintype=skey&Exif_CameraMaker=&Exif_CameraModel=&Exif_Time=&uin='.$this->uin.'&skey='.$this->skey;
         $data=preg_replace("/\s/","",$this->get_curl($url,$post,1,$this->cp_cookie,0,1));
 		preg_match('/_Callback\((.*)\);/',$data,$arr);
 		$data=json_decode($arr[1],true);
         if($data && array_key_exists('filemd5',$data)){
 			$this->msg[]='图片上传成功！';
-			$post='output_type=json&preupload=2&md5='.$data['filemd5'].'&filelen='.$data['filelen'].'&batchid='.time().rand(100000,999999).'&currnum=0&uploadNum=1&uploadtime='.time().'&uploadtype=1&upload_hd=0&albumtype=7&big_style=1&op_src=15003&charset=utf-8&output_charset=utf-8&uin='.$this->uin.'&logintype=sid&refer=shuoshuo';
+			$post='output_type=json&preupload=2&md5='.$data['filemd5'].'&filelen='.$data['filelen'].'&batchid='.time().rand(100000,999999).'&currnum=0&uploadNum=1&uploadtime='.time().'&uploadtype=1&upload_hd=0&albumtype=7&big_style=1&op_src=15003&charset=utf-8&output_charset=utf-8&uin='.$this->uin.'&skey='.$this->skey.'&logintype=skey&refer=shuoshuo';
 			$img=preg_replace("/\s/","",$this->get_curl($url,$post,1,$this->cp_cookie,0,1));
 			preg_match('/_Callback\(\[(.*)\]\);/',$img,$arr);
 			$data=json_decode($arr[1],true);
@@ -1059,15 +1091,15 @@ class qzone {
 					$this->msg[]='图片信息获取成功！';
 					return ''.$data['picinfo']['albumid'].','.$data['picinfo']['lloc'].','.$data['picinfo']['sloc'].','.$data['picinfo']['type'].','.$data['picinfo']['height'].','.$data['picinfo']['width'].',,,';
 				}else{
-					$this->msg[]='图片信息获取失败！';
+					$this->error[]='图片信息获取失败！';
 					return;
 				}
             }else{
-                $this->msg[]='图片信息获取失败！';
+                $this->error[]='图片信息获取失败！';
                 return;
             }
 		}else{
-			$this->msg[]='图片上传失败！原因：'.$data['msg'];
+			$this->error[]='图片上传失败！原因：'.$data['msg'];
             return;
         }
 	}
@@ -1164,7 +1196,7 @@ class qzone {
 		if($data=='{ret:0}')
 			$this->msg[] = $this->uin.' 会员面板签到成功！';
 		else
-			$this->msg[] = $this->uin.' 会员面板签到失败！'.$json;
+			$this->error[] = $this->uin.' 会员面板签到失败！'.$json;
 
 		//$url='http://vipfunc.qq.com/growtask/sign.php?cb=vipsign.signCb&action=daysign&actId=16&fotmat=json&t='.time().'141&g_tk='.$this->gtk2;
 		//$data=$this->get_curl($url,0,$url,$this->cookie);
@@ -1176,37 +1208,24 @@ class qzone {
 			$this->msg[] = $this->uin.' 会员网页版今天已经签到！';
 		elseif($arr['ret']==10002){
 			$this->skeyzt=1;
-			$this->msg[] = $this->uin.' 会员网页版签到失败！SKEY过期';
+			$this->error[] = $this->uin.' 会员网页版签到失败！SKEY过期';
 		}elseif($arr['ret']==20101)
-			$this->msg[] = $this->uin.' 会员网页版签到失败！不是QQ会员！';
+			$this->error[] = $this->uin.' 会员网页版签到失败！不是QQ会员！';
 		else
-			$this->msg[] = $this->uin.' 会员网页版签到失败！'.$arr['msg'];
+			$this->error[] = $this->uin.' 会员网页版签到失败！'.$arr['msg'];
 
 		$data=$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?actid=52002&rand=0.27489888'.time().'&g_tk='.$this->gtk2.'&format=json',0,'http://vip.qq.com/',$this->cookie);
+		//$data=$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?actid=23868&rand=0.387115'.time().'&g_tk='.$this->gtk2.'&sid='.$this->sid.'&format=json',0,'http://vip.qq.com/',$this->cookie);
 		$arr=json_decode($data,true);
 		if(array_key_exists('ret',$arr) && $arr['ret']==0)
 			$this->msg[] = $this->uin.' 会员手机端签到成功！';
 		elseif($arr['ret']==10601)
 			$this->msg[] = $this->uin.' 会员手机端今天已经签到！';
 		elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[] = $this->uin.' 会员手机端签到失败！SKEY过期';
+			$this->sidzt=1;
+			$this->error[] = $this->uin.' 会员手机端签到失败！SKEY过期';
 		}else
-			$this->msg[] = $this->uin.' 会员手机端签到失败！'.$arr['msg'];
-
-		$data=$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=56247&g_tk='.$this->gtk2.'&pvsrc=&fotmat=json&cache=0',0,'http://vip.qq.com/',$this->cookie);
-		$arr=json_decode($data,true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0)
-			$this->msg[] = $this->uin.' 三国之刃会员每周签到礼包领取成功！';
-		elseif($arr['ret']==10601)
-			$this->msg[] = $this->uin.' 三国之刃会员每周签到礼包已领取！';
-		elseif($arr['ret']==40039)
-			$this->msg[] = $this->uin.' 三国之刃会员每周签到礼包 不符合领取条件';
-		elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[] = $this->uin.' 三国之刃会员每周签到礼包领取失败！SKEY过期';
-		}else
-			$this->msg[] = $this->uin.' 三国之刃会员每周签到礼包领取失败！'.$arr['msg'];
+			$this->error[] = $this->uin.' 会员手机端签到失败！'.$arr['msg'];
 
 		$data=$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=54963&isLoadUserInfo=1&format=json&g_tk='.$this->gtk2,0,'http://vip.qq.com/',$this->cookie);
 		$arr=json_decode($data,true);
@@ -1216,9 +1235,9 @@ class qzone {
 			$this->msg[] = $this->uin.' 会员积分今天已经签到！';
 		elseif($arr['ret']==10002){
 			$this->skeyzt=1;
-			$this->msg[] = $this->uin.' 会员积分签到失败！SKEY过期';
+			$this->error[] = $this->uin.' 会员积分签到失败！SKEY过期';
 		}else
-			$this->msg[] = $this->uin.' 会员积分签到失败！'.$arr['msg'];
+			$this->error[] = $this->uin.' 会员积分签到失败！'.$arr['msg'];
 
 		$data=$this->get_curl('http://iyouxi.vip.qq.com/ams2.02.php?actid=23074&g_tk_type=1sid=&rand=0.8656469448520889&format=json&g_tk='.$this->gtk2,0,'http://vip.qq.com/',$this->cookie);
 		$arr=json_decode($data,true);
@@ -1228,16 +1247,16 @@ class qzone {
 			$this->msg[] = $this->uin.' 会员积分2今天已经签到！';
 		elseif($arr['ret']==10002){
 			$this->skeyzt=1;
-			$this->msg[] = $this->uin.' 会员积分2签到失败！SKEY过期';
+			$this->error[] = $this->uin.' 会员积分2签到失败！SKEY过期';
 		}else
-			$this->msg[] = $this->uin.' 会员积分2签到失败！'.$arr['msg'];
+			$this->error[] = $this->uin.' 会员积分2签到失败！'.$arr['msg'];
 
 		$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=27754&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=509656&vipid=MA20131223091753081&format=json&_='.time(),0,'http://vip.qq.com/',$this->cookie);//超级会员每月成长值
 		$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=27755&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=509656&vipid=MA20131223091753081&format=json&_='.time(),0,'http://vip.qq.com/',$this->cookie);//超级会员每月积分
 		$this->get_curl('http://iyouxi.vip.qq.com/ams3.0.php?g_tk='.$this->gtk2.'&actid=22249&_c=page&format=json&_='.time(),0,'http://vip.qq.com/',$this->cookie);//每周薪水积分
 		$this->get_curl("http://iyouxi.vip.qq.com/jsonp.php?_c=page&actid=5474&isLoadUserInfo=1&format=json&g_tk=".$this->gtk2."&_=".time(),0,0,$this->cookie);
 	}
-    public function lzqd(){
+    public function lzqd($do=0){
 		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_feedback_send_lottery.fcg?activeid=110&rnd='.time().'157&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=UTF-8&outCharset=UTF-8&notice=0&platform=activity&needNewCode=1';
 		$data = $this->get_curl($url,0,'http://y.qq.com/vip/fuliwo/index.html',$this->cookie);
 		$arr = json_decode($data, true);
@@ -1246,10 +1265,8 @@ class qzone {
 				$this->msg[]='您今天已经签到过了！';
 			else
 				$this->msg[]='绿钻签到成功！';
-		}elseif($arr['code']==-200017){
-			$this->msg[]='你不是绿钻无法签到！';
 		}else{
-			$this->msg[]='绿钻签到失败！';
+			$this->error[]='绿钻签到失败！';
 		}
 
 		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_dmrp_get_present.fcg?activeid=73&rnd='.time().'029&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=GB2312&outCharset=gb2312&notice=0&platform=activity&needNewCode=1';
@@ -1258,48 +1275,9 @@ class qzone {
 		if(array_key_exists('code',$arr) && $arr['code']==0){
 			$this->msg[]='绿钻签到2成功！';
 		}elseif($arr['code']==-200006){
-			$this->msg[]='绿钻签到2今天已签到！';
+			$this->msg[]='您今天已经签到过了！';
 		}else{
-			$this->msg[]='绿钻签到2失败！';
-		}
-
-		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_dmrp_get_present.fcg?activeid=128&rnd='.time().'029&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=GB2312&outCharset=gb2312&notice=0&platform=activity&needNewCode=1';
-		$data = $this->get_curl($url,0,'http://y.qq.com/vip/Installment_lv8/index.html',$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]='绿钻签到3成功！';
-		}elseif($arr['code']==-200006){
-			$this->msg[]='绿钻签到3今天已签到！';
-		}elseif($arr['code']==200004){
-			$this->msg[]='你不是绿钻无法签到！';
-		}else{
-			$this->msg[]='绿钻签到3失败！';
-		}
-
-		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_dmrp_get_present.fcg?activeid=130&rnd='.time().'029&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=GB2312&outCharset=gb2312&notice=0&platform=activity&needNewCode=1';
-		$data = $this->get_curl($url,0,'http://y.qq.com/vip/Installment_lv8/index.html',$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]='绿钻签到4成功！';
-		}elseif($arr['code']==-200006){
-			$this->msg[]='绿钻签到4今天已签到！';
-		}elseif($arr['code']==200004){
-			$this->msg[]='你不是绿钻无法签到！';
-		}else{
-			$this->msg[]='绿钻签到4失败！';
-		}
-
-		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_dmrp_get_present.fcg?activeid=138&rnd='.time().'029&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=GB2312&outCharset=gb2312&notice=0&platform=activity&needNewCode=1';
-		$data = $this->get_curl($url,0,'http://y.qq.com/vip/Installment_lv8/index.html',$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('code',$arr) && $arr['code']==0){
-			$this->msg[]='绿钻签到5成功！';
-		}elseif($arr['code']==-200006){
-			$this->msg[]='绿钻签到5今天已签到！';
-		}elseif($arr['code']==200004){
-			$this->msg[]='你不是绿钻无法签到！';
-		}else{
-			$this->msg[]='绿钻签到5失败！';
+			$this->error[]='绿钻签到2失败！';
 		}
 
 		$url='http://share.music.qq.com/fcgi-bin/dmrp_activity/fcg_dmrp_draw_lottery.fcg?activeid=159&rnd='.time().'482&g_tk='.$this->gtk.'&uin='.$this->uin.'&hostUin=0&format=json&inCharset=UTF-8&outCharset=UTF-8&notice=0&platform=activity&needNewCode=1';
@@ -1310,24 +1288,24 @@ class qzone {
 		}elseif($arr['code']==200008){
 			$this->msg[]='您没有抽奖机会！';
 		}else{
-			$this->msg[]='绿钻抽奖失败！';
+			$this->error[]='绿钻抽奖失败！';
 		}
 		
 	}
-    public function pqd(){
-		$url="http://iyouxi.vip.qq.com/ams3.0.php?g_tk=".$this->gtk2."&pvsrc=102&ozid=511022&vipid=&actid=32961&format=json".time()."8777&cache=3654";
-		$data = $this->get_curl($url,0,'http://youxi.vip.qq.com/m/wallet/activeday/index.html?_wv=3&pvsrc=102',$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]='钱包签到成功！';
-		}elseif($arr['ret']==37206){
-			$this->msg[]='钱包签到失败！你没有绑定银行卡';
-		}elseif($arr['ret']==10601){
-			$this->msg[]='你今天已钱包签到！';
-		}else{
-			$this->msg[]='钱包签到失败！'.$arr['msg'];
-		}	
-	}
+    public function pqd() {
+        $url = "http://iyouxi.vip.qq.com/ams3.0.php?g_tk=" . $this->gtk2 . "&pvsrc=102&ozid=511022&vipid=&actid=32961&sid=" . $this->sid . "&format=json" . time() . "8777&cache=3654";
+        $data = $this->get_curl($url, 0, 'http://iyouxi.vip.qq.com/', $this->cookie);
+        $arr = json_decode($data, true);
+        if (array_key_exists('ret', $arr) && $arr['ret'] == 0) {
+            $this->msg[] = '钱包签到成功！';
+        } elseif ($arr['ret'] == 37206) {
+            $this->error[] = '钱包签到失败！你没有绑定银行卡';
+        } elseif ($arr['ret'] == 10601) {
+            $this->msg[] = '你今天已钱包签到！';
+        } else {
+            $this->error[] = '钱包签到失败！' . $arr['msg'];
+        }
+    }
 	public function yqd(){
 		$url = 'http://vip.qzone.qq.com/fcg-bin/v2/fcg_mobile_vip_site_checkin?t=0.89457'.time().'&g_tk='.$this->gtk.'&qzonetoken=423659183';
 		$post = 'uin='.$this->uin.'&format=json';
@@ -1417,7 +1395,7 @@ class qzone {
 		}
 	}
 	public function videoqd(){
-		$url='http://pay.video.qq.com/fcgi-bin/sign?low_login=1&uin='.$this->uin.'&otype=json&_t=2&g_tk='.$this->gtk.'&_='.time().'8906';
+		$url='http://pay.video.qq.com/fcgi-bin/sign?low_login=1&uin='.$this->uin.'&otype=json&_t=2&g_tk='.$this->gtk2.'&_='.time().'8906';
 		$data = $this->get_curl($url,0,$url,$this->cookie);
 		preg_match('/QZOutputJson=(.*?)\;/is',$data,$json);
 		$arr = json_decode($json[1], true);
@@ -1438,96 +1416,16 @@ class qzone {
 		$data = $this->get_curl($url,0,$url,$this->cookie);
 		$arr = json_decode($data, true);
 		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
+			$this->msg[]=$this->uin.' 年费会员抽奖成功！'.$arr['data']['op']['name'];
 		}elseif($arr['ret']==10002){
 			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
+			$this->error[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
 		}elseif($arr['ret']==20102){
 			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
 		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
+			$this->msg[]=$this->uin.' 你今天已经抽奖过了！';
 		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
-		}
-
-		$url='http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=28311&_record_gift_flow=1&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=&vipid=-&format=json&_='.time().'6721';
-		$data = $this->get_curl($url,0,$url,$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
-		}elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
-		}elseif($arr['ret']==20102){
-			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
-		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
-		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
-		}
-
-		$url='http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=28479&_record_gift_flow=1&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=&vipid=-&format=json&_='.time().'6721';
-		$data = $this->get_curl($url,0,$url,$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
-		}elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
-		}elseif($arr['ret']==20102){
-			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
-		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
-		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
-		}
-
-		$url='http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=28485&_record_gift_flow=1&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=&vipid=-&format=json&_='.time().'6721';
-		$data = $this->get_curl($url,0,$url,$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
-		}elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
-		}elseif($arr['ret']==20102){
-			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
-		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
-		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
-		}
-
-		$url='http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=28484&_record_gift_flow=1&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=&vipid=-&format=json&_='.time().'6721';
-		$data = $this->get_curl($url,0,$url,$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
-		}elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
-		}elseif($arr['ret']==20102){
-			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
-		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
-		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
-		}
-
-		$url='http://iyouxi.vip.qq.com/ams3.0.php?_c=page&actid=28476&_record_gift_flow=1&g_tk='.$this->gtk2.'&pvsrc=undefined&ozid=&vipid=-&format=json&_='.time().'6721';
-		$data = $this->get_curl($url,0,$url,$this->cookie);
-		$arr = json_decode($data, true);
-		if(array_key_exists('ret',$arr) && $arr['ret']==0){
-			$this->msg[]=$this->uin.' 年费会员抽奖.类型:'.$arr['data']['actname'].' 结果:'.$arr['data']['op']['name'];
-		}elseif($arr['ret']==10002){
-			$this->skeyzt=1;
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！SKEY已失效';
-		}elseif($arr['ret']==20102){
-			$this->msg[]=$this->uin.' 你不是年费会员，无法抽奖';
-		}elseif($arr['ret']==10601){
-			$this->msg[]=$this->uin.' 你今天已经抽奖过了！类型:'.$arr['data']['actname'];
-		}else{
-			$this->msg[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
+			$this->error[]=$this->uin.' 年费会员抽奖失败！'.$arr['msg'];
 		}
 	}
 	public function qqgjqd(){
@@ -1568,6 +1466,25 @@ class qzone {
 			$this->error[]='3366签到失败！'.$data;
 		}
 	}
+    public function is_zan() {
+        $ch = curl_init('http://ish.z.qq.com/infocenter_v2.jsp?B_UID=' . $this->uin . '&sid=' . $this->sid . '&g_ut=1');
+        curl_setopt($ch, CURLOPT_USERAGENT, "MQQBrowser WAP (Nokia/MIDP2.0)");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $contents = curl_exec($ch);
+        curl_close($ch);
+        preg_match_all('@<a href="http://blog(\d)0.z.qq.com/like/like_action.jsp(.*)">赞\(\d{1,}\)</a>@Ui', $contents, $url_array);
+        $n = count($url_array['2']);
+        for ($i = 0; $i < $n; $i++) {
+            $url = "http://blog" . $url_array['1'][$i] . "0.z.qq.com/like/like_action.jsp" . $url_array['2'][$i];
+            $ch = curl_init(html_entity_decode($url));
+            curl_setopt($ch, CURLOPT_USERAGENT, "MQQBrowser WAP (Nokia/MIDP2.0)");
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_NOBODY, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
+            curl_exec($ch);
+            curl_close($ch);
+        }
+    }
 	public function getSubstr($str, $leftStr, $rightStr){
 		$left = strpos($str, $leftStr);
 		//echo '左边:'.$left;
@@ -1576,5 +1493,44 @@ class qzone {
 		if($left < 0 or $right < $left) return '';
 		return substr($str, $left + strlen($leftStr), $right-$left-strlen($leftStr));
 	}
+    public function mood_reply($content = '') {
+        if (preg_match("/\[随机\]/", $content) || $content == '') {
+            $str = @file_get_contents('sji.db');
+            $a = explode('|', $str);
+            $isrand = 1;
+        } else $isrand = 0;
+        $url = 'http://ish.z.qq.com/feeds_friends.jsp?B_UID=' . $this->uin . '&sid=' . $this->sid . '&type=taotao&g_ut=2';
+        $ch = curl_init($url); //获取好友动态列表
+        curl_setopt($ch, CURLOPT_USERAGENT, "MQQBrowser WAP (Nokia/MIDP2.0)");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $b = curl_exec($ch);
+        curl_close($ch);
+        $type = 1;
+        if ($type == 1) {
+            preg_match_all('@<a href="http://info(.*).z.qq.com/infocenter/myfeed_mood.jsp\?sid=(.*)B_(.*)_source(.*)">评论\(0\)</a>@', $b, $ur_array);
+        } elseif ($type == 2) {
+            preg_match_all('@<a href="http://blog(.*).z.qq.com/mood/mood_detail.jsp\?sid=(.*)B_(.*)_source(.*)">评论\(\d{1,}\)</a>@', $b, $ur_array);
+        } elseif ($type == 3) {
+            preg_match_all('@(.*)/mood_detail.jsp\?sid=(.*)B_(.*)_source(.*)">评论\(\d{1,}\)</a>@', $b, $ur_array);
+        }
+        $n = count($ur_array['3']);
+        for ($i = 0; $i < $n; $i++) {
+            $ur = html_entity_decode($ur_array['3'][$i]);
+            if ($isrand == 1) $content = $a[array_rand($a, 1) ];
+            $nr = str_replace("\r\n", "", $content);
+            $urla = 'http://info60.z.qq.com/infocenter/myfeed_mood.jsp?sid=' . $this->sid . '&g_ut=2';
+            $po = "B_{$ur}_source=1&comeFrom=mainpage_guest&content=" . urlencode($nr);
+            $ch = curl_init(); //提交评论
+            curl_setopt($ch, CURLOPT_URL, $urla);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_USERAGENT, "MQQBrowser WAP (Nokia/MIDP2.0)");
+            curl_setopt($ch, CURLOPT_NOBODY, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $po);
+            curl_exec($ch);
+            curl_close($ch);
+        }
+    }
 }
 

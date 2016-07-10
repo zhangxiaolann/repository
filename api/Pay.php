@@ -1,5 +1,4 @@
 <?php
-
 $mysql=require("../Common/Conf/db.php");
 try{
 	$db=new PDO("mysql:host=".$mysql['DB_HOST'].";dbname=".$mysql['DB_NAME'].";port=".$mysql['DB_PORT'],$mysql['DB_USER'],$mysql['DB_PWD']);

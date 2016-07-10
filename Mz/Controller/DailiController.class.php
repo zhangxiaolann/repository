@@ -1,5 +1,7 @@
 <?php
-
+// 此程序由微秒赞（洛绝尘）深度定制修改 <1031601644@qq.com>
+// 底包为快乐是福1.81 <815856515@qq.com>
+// 人不要脸，天下无敌。 儿子你要改版权爸爸也不拦你，尤其是龙魂儿子
 
 namespace Mz\Controller;
 use Think\Controller;
@@ -183,7 +185,7 @@ class DailiController extends Controller {
 	}
 	public function __construct(){
 		parent::__construct();
-		if($�id=get_safe_str($_COOKIE['vmz_sid'])){
+		if($�id=$_COOKIE['vmz_sid']){
 			if($��܌=M("users")->field(array("*"))->where("sid='$�id'")->find()){
 				if(!$��܌['daili']){
 					get_exit($��."你不是代理！",U('index/user'));

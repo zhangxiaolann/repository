@@ -1,5 +1,4 @@
 <?php
-
 function qdrule(){
 	if($rows=explode('|',C('qd_rule'))){
 		$array=array();
