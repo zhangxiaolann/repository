@@ -1,0 +1,286 @@
+<extend name="common"/>
+
+<block name="title">等级代挂-QQ{$qqrow.qq}-{:C('web_name')}</block>
+
+<block name="page">
+
+<div class="page-header">
+	<div class="pull-left">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('user')}">用户中心</a></li>
+			<li><a href="{:U('qq','qid='.$qqrow['qid'])}">{$qqrow.qq}</a></li>
+			<li class="active">等级代挂</li>
+		</ol>
+	</div>
+</div>
+
+
+<div class="row">
+
+	<div class="col-xs-12 col-md-4">
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">代挂信息</div>
+
+			<div class="list-group-item red"><span>代挂剩余时长：{$dg_info.vmz.dgtime}</span></div>
+
+			<div class="list-group-item red"><span>异常记录：
+			<if condition="$dg_info['vmz']['ustar'] eq 0">稳定代挂中</if>
+			<if condition="$dg_info['vmz']['ustar'] eq 1">密码错误,请更新Q密码</if>
+			<if condition="$dg_info['vmz']['ustar'] eq 2">冻结保护,请更新Q密码</if>
+			<if condition="$dg_info['vmz']['satr'] eq 暂停代挂">您的QQ已被站长或客服暂停等级代挂,详情请联系客服</if>
+			<if condition="$dg_info['vmz']['guard'] eq 登录保护冻结中">抱歉,您的QQ由于开了设备锁,暂停等级代挂</if>
+			
+			</span></div>
+
+		</div>
+
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">使用说明</div>
+
+			<div class="list-group-item red"><span>代挂服务器在河南省郑州市，初次使用可能会出现风险登陆和异地登陆</span></div>
+
+			<div class="list-group-item red"><span>出现分险提示的请前往QQ安全中心APP确认登陆</span></div>
+
+			<div class="list-group-item red"><span>手游没加速的需要玩一次天天爱消除下次就可加速了！</span></div>
+
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-md-4 ">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">等级代挂设置</div>
+
+			<form action="{:U('djdg','qid='.$qqrow['qid'])}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="djdg">
+
+			<div class="list-group-item red"><span>1、使用电脑QQ代挂和手机QQ代挂的务必关闭设备锁</span></div>
+
+			<div class="list-group-item red"><span>2、代挂时间为每天凌晨0:00-1:30</span></div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">勋章墙代挂加速&nbsp;&nbsp;&nbsp;</div>
+
+					<select name="xunzhang"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['xunzhang'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">电脑QQ代挂加速&nbsp;</div>
+
+					<select name="pcqq"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['pcqq'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">手机QQ代挂加速&nbsp;</div>
+
+					<select name="mqq"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['mqq'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">腾讯手游代挂加速</div>
+
+					<select name="game"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['game'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">电脑管家代挂加速</div>
+
+					<select name="guanjia"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['guanjia'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">QQ音乐代挂加速&nbsp;</div>
+
+					<select name="qqmusic"class="form-control">
+
+						<option value ="0" selected="">关闭中</option>
+
+						<option value ="1" <if condition="$dg_info['vmz']['qqmusic'] eq '代挂中'">selected=""</if>>代挂中</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-md-4">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">更新QQ密码</div>
+			<form action="{:U('djdg','qid='.$qqrow['qid'])}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="upqqpwd">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">&nbsp;QQ&nbsp;</div>
+
+					<input type="text" class="form-control" value="{$qqrow.qq}"disabled="disabled">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">密码</div>
+
+					<input type="text" class="form-control" name="qqpwd" placeholder="输入代挂QQ的密码">
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="确定更新" class="btn btn-primary btn-block">
+
+			</div>
+			</form>
+
+		</div>
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">续费代挂</div>
+			<form action="{:U('djdg','qid='.$qqrow['qid'])}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="renew">
+
+				<div class="list-group-item">
+
+					<div class="input-group">
+
+						<div class="input-group-addon">&nbsp;QQ&nbsp;</div>
+
+						<input type="text" class="form-control" value="{$qqrow.qq}"disabled="disabled">
+
+					</div>
+
+				</div>
+
+				<div class="list-group-item">
+
+					<div class="input-group">
+
+						<div class="input-group-addon">卡密</div>
+
+						<input type="text" class="form-control" name="cami" placeholder="输入代挂卡密">
+
+					</div>
+
+				</div>
+
+				<div class="list-group-item">
+
+					<input type="submit" name="submit" value="确定续费" class="btn btn-primary btn-block">
+
+				</div>
+			</form>
+
+		</div>
+
+		
+		<div class="list-group">
+		<form action="{:U('djdg','qid='.$qqrow['qid'])}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="bg">
+			<div class="list-group-item list-group-item-success">代挂补挂</div>
+			<div class="list-group-item red"><span>如果有些代挂加速没有加速成功，请在下方勾选后补挂</span></div>
+			<div class="list-group-item red"><span>补挂时间为：16:00-17:30</span></div>
+			<div class="list-group-item black">
+			<input type="checkbox" name="bgid[]" value="xunzhang">勋章墙&nbsp;
+			<input type="checkbox" name="bgid[]" value="mqq">手机QQ&nbsp;
+			<input type="checkbox" name="bgid[]" value="guanjia">电脑管家&nbsp;
+			<input type="checkbox" name="bgid[]" value="pcqq">电脑QQ&nbsp;
+			<input type="checkbox" name="bgid[]" value="qqmusic">QQ音乐&nbsp;
+			<input type="checkbox" name="bgid[]" value="game">手机游戏&nbsp;</div>
+			<div class="list-group-item">
+				<input type="submit" name="submit" value="提交补挂" class="btn btn-primary btn-block">
+			</div>
+		</form>
+		</div>
+		
+	</div>
+
+</div>
+
+</block>

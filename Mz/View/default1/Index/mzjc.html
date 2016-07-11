@@ -1,0 +1,119 @@
+<extend name="common"/>
+<block name="title">{$qqrow.qq}秒赞好友检测-{:C('web_name')}</block>
+<block name="head">
+<script type="text/javascript">
+function SelectAll(chkAll) {
+	var items = $('.uins');
+	mz=items[i].attributes["mz"].value;
+	if((type==1 && mz>0) || type != 1){
+		for (i = 0; i < items.length; i++) {
+			if (items[i].id.indexOf("uins") != -1) {
+				if (items[i].type == "checkbox") {
+					items[i].checked = chkAll.checked;
+				}
+			}
+		}
+	}
+}
+function SelectGpAll(gp,chkAll,type) {
+	var items = $('.gpuins'+gp);
+	var mz;
+	for (i = 0; i < items.length; i++) {
+		mz=items[i].attributes["mz"].value;
+		if((type==1 && mz>0) || type != 1){
+			if (items[i].id.indexOf("uins") != -1) {
+				if (items[i].type == "checkbox") {
+					items[i].checked = chkAll.checked;
+				}
+			}
+		}
+	}
+}
+$(document).ready(function(){
+	$('.fenzu').click(function(){
+		self=$(this);
+		if (self.attr("data-lock") === "true") return;
+			else self.attr("data-lock", "true");
+		$('#ydjg').html('移动中<img src="/Style/images/load.gif" style="height: 15px;">');
+
+
+		var uins='';
+		$("input[name=uins]").each(function(){
+			if($(this)[0].checked){
+				uins +=','+$(this).val();
+			}
+		});
+		
+		var fenzu=$("#gpname").val();
+		var url="/api/fenzu.php";
+		vmz.postData(url,'uin={$qqrow.qq}&skey={$qqrow.skey}&gpid='+fenzu+'&uins='+uins, function(d) {
+			if(d.code ==0){
+				$('#ydjg').html('移动完成！');
+				self.attr("data-lock", "true");
+				alert('移动完成');
+			}else{
+				$('#ydjg').html('移动失败！');
+				alert(d.msg);
+			}
+		});
+		self.attr("data-lock", "false");
+	});
+});
+</script>
+</block>
+<block name="page">
+<div class="row">
+	<div class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('user')}">用户中心</a></li>
+			<li><a href="{:U('qq','qid='.$qqrow['qid'])}">{$qqrow.qq}</a></li>
+			<li class="active">秒赞好友检测</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="panel-group  col-xs-12" id="gpnames">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<div class="panel-title">总共{$fcount}个好友,{$mzcount}个秒赞好友！</div>
+			</div>
+		</div>
+		<volist name="gpnames" id="row" key="k">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<span class="right">[<if condition="$count=$friend[$row['gpid']]['mzcount']">{$count}<else/>0</if>]</span>
+				<div class="panel-title" data-toggle="collapse" data-parent="#gpnames" href="#gpnames{$row.gpid}">{$row.gpname}[{:count($friend[$row['gpid']])}]</div>
+			</div>
+			<div id="gpnames{$row.gpid}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<table class="table  table-bordered" style="table-layout: fixed;">
+					<tbody>
+					<tr><td style="width:150px;" align="center">All<input type="checkbox" onclick="SelectGpAll({$row.gpid},this)"/>&nbsp;赞<input type="checkbox" onclick="SelectGpAll({$row.gpid},this,1)"/>&nbsp;QQ号</td><td class="mzwidthtd" align="center"">昵称</td><td class="mzwidthtd" align="center">备注</td><td align="center">结果</td></tr>
+					<?php foreach($friend[$row['gpid']] as $row){						$bf=$row['mz']/5;						$bfb=round(($row['mz']/5)*100); 						if(is_array($row)){ 							echo'<tr class="warning">							<td><input name="uins" type="checkbox" class="uins gpuins'.$row['groupid'].'" id="uins" value="'.$row['uin'].'" mz="'.$row['mz'].'">'.$row['uin'].'</td>							<td class="mztd" title="'.$row['name'].'">'.$row['name'].'</td>							<td class="mztd" title="'.$row['remark'].'">'.$row['remark'].'</td>							<td align="center" style="background: rgba(57, 110, 0, '.$bf.');">'.$bfb.'%</td>							</tr>';							}					}?>
+					</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</volist>
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<div class="input-group">
+						<div class="input-group-addon btn">All<input type="checkbox" onclick="SelectAll(this)" />&nbsp;赞<input type="checkbox" onclick="SelectAll(this,1)" /></div>
+						<div class="input-group-addon btn fenzu">移动勾选好友到</div>
+						<select id="gpname" class="form-control">
+						<volist name="gpnames" id="row" key="k">
+							<option value="{$row.gpid}">{$row.gpname}</option>
+						</volist>
+						</select>
+						<div class="input-group-addon" id="ydjg"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</block>

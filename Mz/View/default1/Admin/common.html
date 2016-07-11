@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+	<title><block name="title">{:C('web_index_title')}</block></title>
+    <meta name="keywords" content="<block name="keywords">{:C('web_index_keywords')}</block>">
+    <meta name="description" content="<block name="description">{:C('web_index_description')}</block>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/Style/bootstrap/css/bootstrap-theme.min.css">
+	<script src="/Style/bootstrap/js/jquery.min.js"></script>
+	<script src="/Style/bootstrap/js/bootstrap.min.js"></script>
+	<if condition="$alert">{$alert}</if>
+	<link rel="stylesheet" href="/Style/css/default.css?3">
+	<script src="/Style/js/default.js"></script>
+	<block name="head"></block>
+</head>
+<body>
+<block name="body">
+<div class="mznav">
+	<nav class="navbar">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navbar" style="margin-top: 20px;"><span class="sr-only">{:C('web_name')}</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+			<p class="navbar-brand">
+				<a href="/" class="navbar-logo">{:C('web_name')}</a>
+			</p>
+		</div>
+		<div class="collapse navbar-collapse" id="primary-navbar">
+			<ul class="nav navbar-nav navbar-right navbar-lean">
+				<li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true">&nbsp;</span>首页</a></li>
+				<li><a href="{:U('index')}" <if condition="ACTION_NAME eq 'index'">class="nav-active"</if>><span class="glyphicon glyphicon-th-large" aria-hidden="true">&nbsp;</span>后台中心</a></li>
+				<li><a href="{:U('logout')}"><span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;</span>退出</a></li>
+			</ul>
+		</div>
+	</div>
+	</nav>
+</div>
+<div class="page-container">
+	<div class="left-menu hidden-xs">
+		<div class="left_container">
+			<div class="col-md-12">
+				<div class="panel-group" id="panel-566284">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						 <div class="panel-title" data-toggle="collapse" data-parent="#panel-566284" href="#panel-element-set">网站设置</div>
+					</div>
+					<div id="panel-element-set" class="panel-collapse collapse <if condition="ACTION_NAME eq 'set'">in</if>">
+						<div class="panel-body">
+							<a class="list-group-item" href="{:U('set','xz=web')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;网站设置</span></a>
+							<a class="list-group-item" href="{:U('set','xz=gonggao')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;公告配置</span></a>
+							<a class="list-group-item" href="{:U('set','xz=mb')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;模板选择</span></a>
+							<a class="list-group-item" href="{:U('set','xz=mail')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;邮箱配置</span></a>
+							<a class="list-group-item" href="{:U('set','xz=netnum')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;服务器数量</span></a>
+							<a class="list-group-item" href="{:U('set','xz=cron')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;监控说明</span></a>
+							<a class="list-group-item" href="{:U('set','xz=qd')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;签到送VIP设置</span></a>														<a class="list-group-item" href="{:U('set','xz=qqtx')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;QQ提醒设置</span></a>														<a class="list-group-item" href="{:U('set','xz=djdg')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;等级代挂配置</span></a>
+							<a class="list-group-item" href="{:U('set','xz=mb')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;网站模板选择</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						 <div class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-566284" href="#panel-element-mylist">数据管理</div>
+					</div>
+					<div id="panel-element-mylist" class="panel-collapse collapse <if condition="ACTION_NAME eq 'userlist' or ACTION_NAME eq 'qqlist'">in</if>">
+						<div class="panel-body">
+							<a class="list-group-item" href="{:U('qqlist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;Q&nbsp;Q&nbsp;列表</span></a>
+							<a class="list-group-item" href="{:U('userlist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;用户列表</span></a>
+							<a class="list-group-item" href="{:U('userlist','xz=vip')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;VIP列表</span></a>
+							<a class="list-group-item" href="{:U('index','do=delendvip')}" onClick="if(!confirm('确认清理到期VIP？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理到期VIP</span></a>
+							<a class="list-group-item" href="{:U('index','do=delendqq')}" onClick="if(!confirm('确认清理失效QQ？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理失效QQ</span></a>
+							<a class="list-group-item" href="{:U('index','do=delnovip')}" onClick="if(!confirm('确认清理非VIP用户？')){return false;}"><span class="glyphicon glyphicon-asterisk" aria-hidden="true">&nbsp;清理非VIP用户</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						 <div class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-566284" href="#panel-element-km">卡密管理</div>
+					</div>
+					<div id="panel-element-km" class="panel-collapse collapse <if condition="ACTION_NAME eq 'km'">in</if>">
+						<div class="panel-body">
+							<a class="list-group-item" href="{:U('km','xz=sy')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;试用卡卡密</span></a>
+							<a class="list-group-item" href="{:U('km','xz=vip')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;VIP卡卡密</span></a>
+							<a class="list-group-item" href="{:U('km','xz=peie')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;配额卡卡密</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						 <div class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-566284" href="#panel-element-daili">代理管理</div>
+					</div>
+					<div id="panel-element-daili" class="panel-collapse collapse <if condition="ACTION_NAME eq 'dllist'">in</if>">
+						<div class="panel-body">
+							<a class="list-group-item" href="{:U('set','xz=dailiprice')}"><span class="glyphicon glyphicon-edit" aria-hidden="true">&nbsp;代理拿卡价格</span></a>
+							<a class="list-group-item" href="{:U('dllist')}"><span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;代理用户列表</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="main-content">
+		<block name="page"></block>
+	</div>
+</div>
+</block>
+</body>
+</html>

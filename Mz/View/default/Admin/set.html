@@ -1,0 +1,1092 @@
+<extend name="common"/>
+
+<block name="title">网站设置-{:C('web_name')}</block>
+
+<block name="page">
+
+
+<div class="page-header">
+	<div class="pull-left">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li><a href="{:U('index')}">管理后台</a></li>
+			<li class="active">网站设置</li>
+		</ol>
+	</div>
+</div>
+
+
+<div class="row">
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'web'">hide</if>">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">网站基本设置</div>
+
+			<form action="{:U('set','xz=web')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">网站名称&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="web_name" value="{:C('web_name')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">网站域名&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="web_domain" value="{:C('web_domain')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">站长Q&nbsp;&nbsp;Q&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="web_qq" value="{:C('web_qq')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">售后&nbsp;QQ&nbsp;&nbsp;群</div>
+
+					<input type="text" class="form-control" name="web_qun" value="{:C('web_qun')}">
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">拉圈API</div>
+
+					<input type="text" class="form-control" name="lqqurl" value="{:C('lqqurl')}">
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">首页标题&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<textarea class="form-control" name="web_index_title" rows="5">{:stripslashes(C('web_index_title'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">首页关键词</div>
+
+					<textarea class="form-control" name="web_index_keywords" rows="5">{:stripslashes(C('web_index_keywords'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">首页描述&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<textarea class="form-control" name="web_index_description" rows="5">{:stripslashes(C('web_index_description'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">统计代码&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<textarea class="form-control" name="web_statistical" rows="5">{:stripslashes(C('web_statistical'))}</textarea>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">新注册会员是否邮箱验证</div>
+
+					<select name="regactive"class="form-control">
+
+						<option value ="1" selected="">关闭</option>
+
+						<option value ="0" <if condition="C('regactive') eq 0">selected=""</if>>开启</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">新注册会员赠送配额数</div>
+
+					<input type="text" class="form-control" name="regpeie" value="{:C('regpeie')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">新注册会员赠送余额</div>
+
+					<input type="text" class="form-control" name="regrmb" value="{:C('regrmb')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">后台新密码</div>
+
+					<input type="text" class="form-control" name="adminpwd" placeholder="留空则不修改">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+
+
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'gonggao'">hide</if>">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">网站公告配置</div>
+
+			<form action="{:U('set','xz=gonggao')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">首页欢迎语&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<textarea class="form-control" name="gonggao_welcome" rows="5">{:stripslashes(C('gonggao_welcome'))}</textarea>
+
+				</div>
+
+			</div>
+
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">用户中心公告</div>
+
+					<textarea class="form-control" name="gonggao_user" rows="5">{:stripslashes(C('gonggao_user'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">代理后台公告</div>
+
+					<textarea class="form-control" name="gonggao_daili" rows="5">{:stripslashes(C('gonggao_daili'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">添加挂机公告</div>
+
+					<textarea class="form-control" name="gonggao_add" rows="5">{:stripslashes(C('gonggao_add'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">自助商城公告</div>
+
+					<textarea class="form-control" name="gonggao_shop" rows="5">{:stripslashes(C('gonggao_shop'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">会员签到公告</div>
+
+					<textarea class="form-control" name="gonggao_qiandao" rows="5">{:stripslashes(C('gonggao_qiandao'))}</textarea>
+
+				</div>
+
+			</div>
+
+
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'mail'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=mail')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">测试邮箱配置</div>
+
+			<if condition="$msg">
+
+			<div class="list-group-item red">测试结果：<span>{:htmlspecialchars($msg)}</span></div>
+
+			</if>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">测试接受邮箱账号</div>
+
+					<input type="text" class="form-control" name="mail" placeholder="输入接受测试消息的邮箱账号">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" value="测试发送" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			<div class="list-group-item list-group-item-success">邮箱配置</div>
+
+			<form action="{:U('set','xz=mail')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">SMTP服务器</div>
+
+					<input type="text" class="form-control" name="mail_host" value="{:C('mail_host')}" placeholder="163邮箱填写smtp.163.com">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">SMTP端口&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="mail_port" value="{:C('mail_port')}" placeholder="一般都是25">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">邮箱账号&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="mail_user" value="{:C('mail_user')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">邮箱密码&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="password" class="form-control" name="mail_pass" value="{:C('mail_pass')}">
+
+				</div>
+
+			</div>
+
+			
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'netnum'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=netnum')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">服务器数量</div>
+
+			<form action="{:U('set','xz=netnum')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">每个服务器允许添加QQ数</div>
+
+					<input type="text" class="form-control" name="netnum" value="{:C('netnum')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">秒赞服务器数量</div>
+
+					<input type="text" class="form-control" name="zannet" value="{:C('zannet')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'mail'">hide</if>">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">邮箱配置说明</div>
+
+			<div class="list-group-item red">1、163邮箱需要自己去邮箱开启SMTP服务</div>
+
+			<div class="list-group-item red">2、163邮箱密码需要填写授权密码</div>
+
+			<div class="list-group-item red">3、端口基本上都是25</div>
+
+			<div class="list-group-item red">4、建议使用163邮箱，QQ邮箱似乎不能用</div>
+
+		</div>
+
+	</div>
+
+
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'dailiprice'">hide</if>">
+
+		<div class="list-group">
+
+			<div class="list-group-item list-group-item-success">代理拿卡价格设置</div>
+
+			<form action="{:U('set','xz=dailiprice')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">1月VIP卡</div>
+
+					<input type="text" class="form-control" name="price_daili_1vip" value="{:C('price_daili_1vip')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">3月VIP卡</div>
+
+					<input type="text" class="form-control" name="price_daili_3vip" value="{:C('price_daili_3vip')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">6月VIP卡</div>
+
+					<input type="text" class="form-control" name="price_daili_6vip" value="{:C('price_daili_6vip')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">12月VIP卡</div>
+
+					<input type="text" class="form-control" name="price_daili_12vip" value="{:C('price_daili_12vip')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">永久VIP卡</div>
+
+					<input type="text" class="form-control" name="price_daili_0vip" value="{:C('price_daili_0vip')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">1个配额卡</div>
+
+					<input type="text" class="form-control" name="price_daili_1peie" value="{:C('price_daili_1peie')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">3个配额卡</div>
+
+					<input type="text" class="form-control" name="price_daili_3peie" value="{:C('price_daili_3peie')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">5个配额卡</div>
+
+					<input type="text" class="form-control" name="price_daili_5peie" value="{:C('price_daili_5peie')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">10个配额卡</div>
+
+					<input type="text" class="form-control" name="price_daili_10peie" value="{:C('price_daili_10peie')}">
+
+					<div class="input-group-addon">元</div>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+	
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'qd'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=qd')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">签到送VIP设置</div>
+
+			<form action="{:U('set','xz=qd')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">是否开启签到送VIP&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<select name="qd_getvip"class="form-control">
+
+						<option value ="0" selected="">关闭</option>
+
+						<option value ="1" <if condition="C('qd_getvip') eq 1">selected=""</if>>开启</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item list-group-item-success"><span class="red">填0则不限制人数！</span></div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">每天前多少名签到才送VIP</div>
+
+					<input type="text" class="form-control" name="qd_num" value="{:C('qd_num')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item red">连续签到送积分规则格式是 天数,送积分 多个设置用|隔开。</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">连续签到送积分规则</div>
+
+					<input type="text" class="form-control" name="qd_rule" value="{:C('qd_rule')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">签到发布说说文字内容</div>
+
+					<textarea class="form-control" name="qd_shuoshuo" rows="5" placeholder="说说文字内容">{:stripslashes(C('qd_shuoshuo'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">签到发布说说图片网址</div>
+
+					<input type="text" class="form-control" name="qd_shuopic" value="{:C('qd_shuopic')}" placeholder="不带图请留空">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">签到发布说说显示机型</div>
+
+					<input type="text" class="form-control" name="qd_shuophone" value="{:C('qd_shuophone')}" placeholder="发布说说机型">
+
+				</div>
+
+			</div>
+
+
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'qqtx'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=qqtx')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">QQ提醒设置</div>
+
+			<form action="{:U('set','xz=qqtx')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">是否开启QQ提醒&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<select name="qqtx_open"class="form-control">
+
+						<option value ="0" selected="">关闭</option>
+
+						<option value ="1" <if condition="C('qqtx_open') eq 1">selected=""</if>>开启</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">添加成功提醒内容</div>
+
+					<textarea class="form-control" name="qqtx_viptj" rows="5" placeholder="城市+IP+您现在需要自定义的内容+到期时间+剩余配额数量">{:stripslashes(C('qqtx_viptj'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">更新成功提醒内容</div>
+
+					<textarea class="form-control" name="qqtx_vipgx" rows="5" placeholder="城市+IP+您现在需要自定义的内容+到期时间+剩余配额数量">{:stripslashes(C('qqtx_vipgx'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">非VIP添加成功提醒内容</div>
+
+					<textarea class="form-control" name="qqtx_tj" rows="5" placeholder="城市+IP+您现在需要自定义的内容">{:stripslashes(C('qqtx_tj'))}</textarea>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">非VIP更新成功提醒内容</div>
+
+					<textarea class="form-control" name="qqtx_gx" rows="5" placeholder="城市+IP+您现在需要自定义的内容">{:stripslashes(C('qqtx_gx'))}</textarea>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'djdg'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=djdg')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">等级代挂接口配置</div>
+
+			<form action="{:U('set','xz=djdg')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">APIPID标识</div>
+
+					<textarea class="form-control" name="yefdjdg_pid" rows="1" >{:stripslashes(C('yefdjdg_pid'))}</textarea>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">APIPID秘钥</div>
+
+					<textarea class="form-control" name="yefdjdg_skey" rows="1" >{:stripslashes(C('yefdjdg_skey'))}</textarea>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">API自定义SKEY</div>
+
+					<textarea class="form-control" name="yefdjdg_uskey" rows="1" >{:stripslashes(C('yefdjdg_uskey'))}</textarea>
+
+				</div>
+
+			</div>
+			
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+			
+			</form>
+
+			
+
+		</div>
+
+	</div>
+	
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'mb'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=mb')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">模板切换</div>
+
+			<form action="{:U('set','xz=qd')}" role="form" class="form-horizontal" method="post">
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">网站模板选择</div>
+
+					<select name="web_mb"class="form-control">
+
+						<?php
+
+						foreach(get_dir(APP_PATH.C('DEFAULT_MODULE').'/'.C('DEFAULT_V_LAYER'),'dir') as $dir){ echo'<option value ="'.$dir.'" ';if($dir == C('web_mb')){ echo'selected=""';}echo'>'.$dir.'</option>';}?>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">电脑版首页模板选择</div>
+
+					<select name="web_web_indexmb"class="form-control">
+
+						<?php
+
+						function is_indexmb($file){
+
+							if(preg_match('/^(index\d{0,})\.html$/i',$file,$arr)){
+
+								return $arr[1];
+
+							}else{
+
+								return;
+
+							}
+
+						}
+
+						$mb=C('web_mb')?C('web_mb'):'default';
+
+						foreach(get_dir(APP_PATH.C('DEFAULT_MODULE').'/'.C('DEFAULT_V_LAYER').'/'.$mb.'/Index','file') as $dir){ if($indexmb=is_indexmb($dir)){ echo'<option value ="'.$indexmb.'" ';if($indexmb == C('web_web_indexmb')){ echo'selected=""';}echo'>'.$dir.'</option>';}}?>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">手机版首页模板选择</div>
+
+					<select name="web_wap_indexmb"class="form-control">
+
+						<?php foreach(get_dir(APP_PATH.C('DEFAULT_MODULE').'/'.C('DEFAULT_V_LAYER').'/'.$mb.'/Index','file') as $dir){ if($indexmb=is_indexmb($dir)){ echo'<option value ="'.$indexmb.'" ';if($dir == C('web_wap_indexmb')){ echo'selected=""';}echo'>'.$dir.'</option>';}}?>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item list-group-item-success"><span class="red">使用自己的</span>首页模板，请将模板文件放在 {:APP_PATH}{:C('DEFAULT_MODULE')}/{:C('DEFAULT_V_LAYER')}/{$mb}/Index 目录下，命名规则为 index数字.html !</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			
+
+		</div>
+
+	</div>
+
+
+
+	<div class="col-xs-12 col-md-4 <if condition="$_GET['xz'] neq 'cron'">hide</if>">
+
+		<div class="list-group">
+
+			<form action="{:U('set','xz=cron')}" role="form" class="form-horizontal" method="post"><input type="hidden" name="do" value="csmail">
+
+			<div class="list-group-item list-group-item-success">监控设置</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">监控识别码&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+					<input type="text" class="form-control" name="cronrand" value="{:C('cronrand')}">
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<div class="input-group">
+
+					<div class="input-group-addon">监控运行方式</div>
+
+					<select name="crontype"class="form-control">
+
+						<option value ="0" selected="">多线程执行(推荐)</option>
+
+						<option value ="1" <if condition="C('crontype') eq 1">selected=""</if>>循环执行</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+			<div class="list-group-item">
+
+				<input type="submit" name="submit" value="保存配置" class="btn btn-primary btn-block">
+
+			</div>
+
+			</form>
+
+			<div class="list-group-item list-group-item-info">监控网址列表</div>
+
+			<div class="list-group-item active">频率：1分钟|秒赞、秒评、转发、圈图监控</div>
+
+			<for start="1" end="C('zannet')+1">
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/new.cron.php?cron={:C('cronrand')}&n={$i}</div>
+
+			</for>
+
+			<div class="list-group-item active">频率：1分钟|单独秒赞监控(服务器配置还行的可以监控这个，配置低的就不要监控这个了！)</div>
+
+			<for start="1" end="C('zannet')+1">
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/zan.cron.php?cron={:C('cronrand')}&n={$i}</div>
+
+			</for>
+
+			<div class="list-group-item active">频率：1分钟|离线挂扣、挂宠监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/3gqq.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：1分钟|自动发说说监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/shuo.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：1分钟|自动删说说、留言监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/del.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：1分钟|互刷留言监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/ly.cron.php?cron={:C('cronrand')}&n=1</div>
+			
+			<div class="list-group-item active">频率：1分钟|互刷礼物监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/lw.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：15分钟|空间签到监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/qd.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：15分钟|花藤、图书、超扣、牧场签到监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/ht.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：15分钟|钱包、会员、绿钻、蓝钻签到监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/vipqd.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			<div class="list-group-item active">频率：1分钟|互刷主页赞监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/zyzan.cron.php?cron={:C('cronrand')}&n=1</div>
+			
+			<div class="list-group-item active">频率：1分钟|群、群问问签到监控</div>
+
+			<div class='list-group-item'>http://{$_SERVER['HTTP_HOST']}/cron/qunqd.cron.php?cron={:C('cronrand')}&n=1</div>
+
+			
+
+		</div>
+
+	</div>
+
+
+
+</div>
+
+</block>

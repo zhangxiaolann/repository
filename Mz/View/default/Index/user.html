@@ -1,0 +1,138 @@
+<extend name="common"/>
+
+<block name="title">用户中心-{:C('web_name')}</block>
+
+<block name="page">
+<!-- Page Header -->
+<div class="page-header">
+	<div class="pull-left">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li class="active">用户中心</li>
+		</ol>
+	</div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default bk-bg-white">
+			<div class="panel-heading bk-bg-white">
+				<h6><i class="fa fa-list red"></i><span class="break"></span>最新公告</h6>
+				<div class="panel-actions">
+					<a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+					<a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="panel-body alerts">
+                                  {:stripslashes(C('gonggao_user'))}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row ">
+	<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+		<div class="panel panel-default bk-bg-white">
+			<div class="panel-heading bk-bg-white">
+				<h6><i class="fa fa-list red"></i><span class="break"></span>我的信息</h6>
+				<div class="panel-actions">
+					<a href="ui-elements.html#" class="btn-close"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="list-group-item">
+				<span class="badge">UID:{$user.uid}</span>
+				<span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;账号：{$user.user}</span>
+			</div>
+			<div class="list-group-item list-group-item-warning">
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;代理：<if condition="$user['daili']"><a href="{:U('daili/index')}">普通代理</a><else/>不是代理</if></span>
+			</div>
+			<div class="list-group-item">
+				<span class="badge">充值</span>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;余额：<font color="red" size="3">{$user.rmb}</font>&nbsp;元</span>
+			</div>
+			<div class="list-group-item">
+				<a href="" class="badge">兑换</a>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;积分：<font color="green" size="3">{$user.jf}</font></span>
+			</div>
+			<div class="list-group-item">
+				<a href="{:U('shop')}" class="badge">购买</a>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;会员：{:get_isvip($user['vip'],$user['vipend'],'No VIP')}</span>
+			</div>
+			<div class="list-group-item">
+				<a href="{:U('shop')}" class="badge">增加</a>
+				<span class="glyphicon glyphicon-th" aria-hidden="true">&nbsp;配额：{:get_count('qqs',"uid='$user[uid]'",'qid')}/<font color="green" size="3">{$user.peie}</font></span>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+		<div class="panel panel-default bk-bg-white">
+			<div class="panel-heading bk-bg-white">
+				<h6><i class="fa fa-list red"></i><span class="break"></span>挂机列表</h6>
+				<div class="panel-actions">
+					<a href="ui-elements.html#" class="btn-close"><i class="fa fa-times black"></i></a>
+				</div>
+			</div>
+			<div class="panel-body bk-padding-bottom-40">
+				<div class="table-responsive">
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th>QQ</th>
+								<th>昵称</th>
+								<th>状态</th>        
+								<th>控制</th>                                  
+							</tr>
+						</thead>   
+						<tbody>									
+							
+								<empty name="qlist">
+									<div class="list-group-item">
+										<a href="{:U('add')}" class="badge">添加</a><span class="glyphicon glyphicon-remove" aria-hidden="true">&nbsp;你还没有添加</span>
+									</div>
+								<else /> 
+								
+									<foreach name="qlist" item="vo">
+									<tr>
+										<if condition="$vo['skeyzt'] neq 0 ">
+											<td>{$vo.uin}</td>
+											<td>{$vo.nick}</td>
+											<td>
+												<a href="{:U('add','uin='.$vo['uin'])}">
+													<span class="label label-danger">失效</span>
+												</a>
+											</td>
+											<td>
+												<a class="btn btn-success" href="{:U('qq','qid='.$vo['qid'])}">
+													<i class="fa fa-gears "></i>                                            
+												</a>
+												<a class="btn btn-danger" href="{:U('user','do=del&qid='.$vo['qid'])}" onClick="if(!confirm('确认删除QQ:{$vo.uin}')){return false;}">
+													<i class="fa fa-trash-o "></i> 
+												</a>
+											</td>
+										<else/>
+											<td>{$vo.uin}</td>
+											<td>{$vo.nick}</td>
+											<td>
+												<a href="{:U('add','uin='.$vo['uin'])}">
+													<span class="label label-success">正常</span>
+												</a>
+											</td>
+											<td>
+												<a class="btn btn-success" href="{:U('qq','qid='.$vo['qid'])}">
+													<i class="fa fa-gears "></i>                                            
+												</a>
+												<a class="btn btn-danger" href="{:U('user','do=del&qid='.$vo['qid'])}" onClick="if(!confirm('确认删除QQ:{$vo.uin}')){return false;}">
+													<i class="fa fa-trash-o "></i> 
+												</a>
+											</td>
+										</if>
+										</tr>
+									</foreach>
+								</empty>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</block>

@@ -1,0 +1,235 @@
+<extend name="common"/>
+<block name="title">添加挂机-{:C('web_name')}</block>
+<block name="page">
+<!-- Page Header -->
+<div class="page-header">
+	<div class="pull-left">
+		<ol class="breadcrumb">
+			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
+			<li class="active"><i class="fa fa-bookmark" aria-hidden="true"></i>更新历程</li>
+		</ol>
+	</div>
+</div>
+<!-- End Page Header -->
+<div class="row">
+	<div class="timeline">
+		<div class="tm-body">
+			<div class="tm-title">
+				<h3 class="h5 text-uppercase">2016年</h3>
+			</div>
+			<ol class="tm-items">
+				<li>
+				<div class="tm-info">
+					<div class="tm-icon">
+						<i class="fa fa-thumbs-up"></i>
+					</div>
+					<time class="tm-datetime" datetime="2015-03-27 09:34">
+					<div class="tm-datetime-date bk-bg-white bk-radius text-center bk-padding-5">
+						2月16日.
+					</div>
+					<div class="tm-datetime-time">
+						V1.2
+					</div>
+					</time>
+				</div>
+				<div class="tm-box">
+				<ul>
+					<li>更新模板</li>
+					<li>后台可自定义圈圈接口</li>
+					<li>修复所有失效协议</li>
+				</ul>
+					<!-- <div class="tm-meta">
+						<span>
+						<i class="fa fa-user"></i> By <a href="#">John Smith Doe</a>
+						</span>
+						<span>
+						<i class="fa fa-tag"></i><a href="#">Awesome Design</a>
+						</span>
+						<span>
+						<i class="fa fa-comments"></i><a href="#">1452 Comments</a>
+						</span>
+						<span>
+						<i class="fa fa-thumbs-up"></i><a href="#">2345 Peoples</a>
+						</span>
+					</div> -->
+				</div>
+				</li>
+				<!-- <li>
+				<div class="tm-info">
+					<div class="tm-icon">
+						<i class="fa fa-thumbs-up"></i>
+					</div>
+					<time class="tm-datetime" datetime="2015-03-15 08:19">
+					<div class="tm-datetime-date bk-bg-white bk-radius text-center bk-padding-5">
+						3 months ago.
+					</div>
+					<div class="tm-datetime-time">
+						08:19 PM
+					</div>
+					</time>
+				</div>
+				<div class="tm-box">
+					<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text.
+					</p>
+					<div class="tm-meta">
+						<span>
+						<i class="fa fa-user"></i> By <a href="#">John Smith Doe</a>
+						</span>
+						<span>
+						<i class="fa fa-tag"></i><a href="#">Awesome Design</a>
+						</span>
+						<span>
+						<i class="fa fa-comments"></i><a href="#">1452 Comments</a>
+						</span>
+						<span>
+						<i class="fa fa-thumbs-up"></i><a href="#">2345 Peoples</a>
+						</span>
+					</div>
+				</div>
+				</li> -->
+				<!-- <li>
+				<div class="tm-info">
+					<div class="tm-icon">
+						<i class="fa fa-map-marker"></i>
+					</div>
+					<time class="tm-datetime" datetime="2015-02-02 08:27">
+					<div class="tm-datetime-date bk-bg-white bk-radius text-center bk-padding-5">
+						4 months ago.
+					</div>
+					<div class="tm-datetime-time">
+						08:27 PM
+					</div>
+					</time>
+				</div>
+				<div class="tm-box">
+					<p>
+												Contrary to popular belief, Lorem Ipsum is not simply random text.
+					</p>
+					<blockquote class="primary">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						</p>
+						<small><a href="index.html">Fire Admin</a>
+						</small>
+					</blockquote>
+					<div id="gmap-checkin-example" class="mb-sm" style="height: 250px; width: 100%;">
+					</div>
+					<div class="tm-meta">
+						<span>
+						<i class="fa fa-user"></i> By <a href="#">John Smith Doe</a>
+						</span>
+						<span>
+						<i class="fa fa-tag"></i><a href="#">Awesome Design</a>
+						</span>
+						<span>
+						<i class="fa fa-comments"></i><a href="#">1452 Comments</a>
+						</span>
+						<span>
+						<i class="fa fa-thumbs-up"></i><a href="#">2345 Peoples</a>
+						</span>
+					</div>
+				</div>
+				</li> -->
+			</ol>
+			<!-- <div class="tm-title">
+				<h3 class="h5 text-uppercase">Dec 2014</h3>
+			</div>
+			<ol class="tm-items">
+				<li>
+				<div class="tm-info">
+					<div class="tm-icon">
+						<i class="fa fa-picture-o"></i>
+					</div>
+					<time class="tm-datetime" datetime="2014-12-25 07:45">
+					<div class="tm-datetime-date bk-bg-white bk-radius text-center bk-padding-5">
+						5 months ago.
+					</div>
+					<div class="tm-datetime-time">
+						07:45 PM
+					</div>
+					</time>
+				</div>
+				<div class="tm-box">
+					<p>
+												Lorem ipsum dolor sit amet, consectetur adipisicing elit
+					</p>
+					<div class="thumbnail-gallery">
+						<a class="img-thumbnail" href="assets/img/gallery/photo9.jpg">
+						<img width="215" src="assets/img/gallery/photo9.jpg">
+						<span class="zoom">
+						<i class="fa fa-search"></i>
+						</span>
+						</a>
+						<a class="img-thumbnail" href="assets/img/gallery/photo10.jpg">
+						<img width="215" src="assets/img/gallery/photo10.jpg">
+						<span class="zoom">
+						<i class="fa fa-search"></i>
+						</span>
+						</a>
+						<a class="img-thumbnail" href="assets/img/gallery/photo11.jpg">
+						<img width="215" src="assets/img/gallery/photo11.jpg">
+						<span class="zoom">
+						<i class="fa fa-search"></i>
+						</span>
+						</a>
+					</div>
+					<div class="tm-meta">
+						<span>
+						<i class="fa fa-user"></i> By <a href="#">John Smith Doe</a>
+						</span>
+						<span>
+						<i class="fa fa-tag"></i><a href="#">Awesome Design</a>
+						</span>
+						<span>
+						<i class="fa fa-comments"></i><a href="#">1452 Comments</a>
+						</span>
+						<span>
+						<i class="fa fa-thumbs-up"></i><a href="#">2345 Peoples</a>
+						</span>
+					</div>
+				</div>
+				</li>
+				<li>
+				<div class="tm-info">
+					<div class="tm-icon">
+						<i class="fa fa-video-camera"></i>
+					</div>
+					<time class="tm-datetime" datetime="2014-12-15 14:25">
+					<div class="tm-datetime-date bk-bg-white bk-radius text-center bk-padding-5">
+						5 months ago.
+					</div>
+					<div class="tm-datetime-time">
+						14:25 AM
+					</div>
+					</time>
+				</div>
+				<div class="tm-box">
+					<p>
+												Lorem ipsum dolor sit amet, consectetur adipisicing elit
+					</p>
+					<div class="video-container">
+						<iframe width="850" height="400" src="http://www.youtube.com/embed/S05TvApB3vc" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+						</iframe>
+					</div>
+					<div class="tm-meta">
+						<span>
+						<i class="fa fa-user"></i> By <a href="#">John Smith Doe</a>
+						</span>
+						<span>
+						<i class="fa fa-tag"></i><a href="#">Awesome Design</a>
+						</span>
+						<span>
+						<i class="fa fa-comments"></i><a href="#">1452 Comments</a>
+						</span>
+						<span>
+						<i class="fa fa-thumbs-up"></i><a href="#">2345 Peoples</a>
+						</span>
+					</div>
+				</div> -->
+				</li>
+			</ol>
+		</div>
+	</div>
+</div>
+</block>
