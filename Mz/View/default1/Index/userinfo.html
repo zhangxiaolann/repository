@@ -1,21 +1,0 @@
-<extend name="common"/>
-<block name="title">用户资料修改-{:C('web_name')}</block>
-<block name="page">
-<div class="row">
-	<div class="col-xs-12">
-		<ol class="breadcrumb">
-			<li><a href="/"><span class="hidden-xs">{:C('web_name')}</span><span class="hidden-md hidden-lg">首页</span></a></li>
-			<li><a href="{:U('user')}">用户中心</a></li>
-			<li class="active">用户资料修改</li>
-		</ol>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-xs-12 col-md-4">
-		<div class="list-group">
-			<div class="list-group-item list-group-item-success">用户资料修改</div>						<form action="{:U('userinfo')}" role="form" class="form-horizontal" method="post">						<div class="list-group-item">				<div class="input-group">					<div class="input-group-addon">UID:</div>					<input type="text" class="form-control" value="{$user.uid}" disabled="disabled">				</div>							</div>						<div class="list-group-item">							<div class="input-group">					<div class="input-group-addon">用户名:</div>					<input type="text" class="form-control" value="{$user.user}" disabled="disabled">				</div>							</div>						<div class="list-group-item">							<div class="input-group">					<div class="input-group-addon">邮箱:</div>					<input type="mail" class="form-control" value="{$user.mail}" name="mail" placeholder="输入邮箱">				</div>							</div>						<div class="list-group-item">							<div class="input-group">					<div class="input-group-addon">手机:</div>					<input type="mail" class="form-control" value="{$user.phone}" name="phone" placeholder="输入手机号">				</div>							</div>						<div class="list-group-item">							<div class="input-group">					<div class="input-group-addon">新密码:</div>					<input type="password" class="form-control" name="pwd" placeholder="不修改留空">				</div>							</div>						<div class="list-group-item">				<input type="submit" name="submit" value="保存修改" class="btn btn-primary btn-block">			</div>			</form>			
-		</div>
-	</div>
-</div>
-</block>
